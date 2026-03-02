@@ -19,5 +19,6 @@ from cooked import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('cooked/', include('cooked.urls')),
     path('admin/', admin.site.urls),
 ]
