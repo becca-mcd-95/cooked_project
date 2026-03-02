@@ -3,10 +3,11 @@ from django.http import HttpResponse
 # Create your views here.
 
 def home(request):
-    return HttpResponse("We're Cooked! - Homepage")
+    context_dict = {'boldmessage': 'Under construction'}
+    return render(request, 'cooked/home.html', context=context_dict)
 
-def login_signup(request):
-    return HttpResponse("We're Cooked! - login/signup")
+# def login_signup(request):
+#     return HttpResponse("We're Cooked! - login/signup")
 
-def user_profile(request):
-    return HttpResponse("We're Cooked! - User Profile")
+# def user_profile(request):
+#     return HttpResponse("We're Cooked! - User Profile")
