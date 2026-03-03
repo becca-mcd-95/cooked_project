@@ -5,8 +5,11 @@ def home(request):
     context_dict = {'boldmessage': 'Under construction'}
     return render(request, 'cooked/home.html', context=context_dict)
 
-def login_signup(request):
-    return render(request, 'cooked/login_signup.html')
+def login(request):
+    return render(request, 'cooked/login.html')
+
+def signup(request):
+    return render(request, 'cooked/signup.html')
 
 def user_profile(request):
     return render(request, 'cooked/user_profile.html')
