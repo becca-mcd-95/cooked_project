@@ -1,0 +1,10 @@
+{% extends 'cooked/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+<form method='post' enctype="'multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+{% endblock%}

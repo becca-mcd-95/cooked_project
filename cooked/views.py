@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import SignUpForm
+from .forms import SignUpForm, ProfileForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 
@@ -29,4 +29,12 @@ def user_profile(request):
 
 @login_required
 def edit_profile(request):
-    return render(request, 'cooked/edit_profile.html')
+    profile = request.user.profile
+    if request.method == 'POST':  
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('cooked:user_profile')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'cooked/edit_profile.html', {'form': form})
