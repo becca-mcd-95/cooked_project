@@ -26,3 +26,7 @@ def signup(request):
 def user_profile(request):
     profile = request.user.profile
     return render(request, 'cooked/user_profile.html', {'profile': profile})
+
+@login_required
+def edit_profile(request):
+    return render(request, 'cooked/edit_profile.html')
