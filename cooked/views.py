@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from forms import SignUpForm
+from .forms import SignUpForm
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     context_dict = {'boldmessage': 'Under construction'}
@@ -21,5 +22,7 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'cooked/signup.html', {'form': form})
 
+@login_required
 def user_profile(request):
-    return render(request, 'cooked/user_profile.html')
+    profile = request.user.profile
+    return render(request, 'cooked/user_profile.html', {'profile': profile})
