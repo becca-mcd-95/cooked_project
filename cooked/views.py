@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import SignUpForm, ProfileForm
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 
 def home(request):
@@ -10,6 +10,10 @@ def home(request):
 
 def login(request):
     return render(request, 'cooked/login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('cooked:home')
 
 def signup(request):
     if request.method == 'POST':

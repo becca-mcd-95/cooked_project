@@ -128,3 +128,6 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 #database InternetTech2026!
+
+LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
