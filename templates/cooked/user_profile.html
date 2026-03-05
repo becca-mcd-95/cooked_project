@@ -1,17 +1,6 @@
-<!DOCTYPE html>
+{% extends 'cooked/base.html' %}
 {% load staticfiles %}
-<html>
-    <head>
-        <title>We're Cooked - Profile</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="{% static 'CSS/style.css' %}" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    </head>
 
-    <body>
-        <h1> User Profile </h1>
-        <div>
-            <br /><strong>{{ boldmessage }}</strong>
-        </div>
-    </body>
-</html>
+{% block body_block %}
+<h1>User Profile... under construction</h1>
+{% endblock%}

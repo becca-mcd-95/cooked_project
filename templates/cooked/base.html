@@ -38,16 +38,10 @@
                     </form>
                     <!-- login/logout buttons -->
                     {% if user.is_authenticated %}
-                        <li>
-                            <a href="{% url 'cooked:logout' %}" class="nav-link px-2 text secondary">Logout</a>
-                        </li>
+                            <a href="{% url 'cooked:logout' %}" class="btn btn-outline-light">Logout</a>
                     {% else %}
-                        <li>
-                            <a href="{% url 'cooked:login' %}" class="nav-link px-2 text secondary">Login</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'cooked:signup' %}" class="nav-link px-2 text secondary">Sign Up</a>
-                        </li>
+                            <a href="{% url 'cooked:login' %}" class="btn btn-outline-light me-2">Login</a>
+                            <a href="{% url 'cooked:signup' %}" class="btn btn-warning">Sign Up</a>
                     {% endif %}
                 </div>
             </div>
