@@ -8,11 +8,11 @@
         <link href="{% static 'CSS/style.css' %}" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </head>
-    <body class="body">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <body class="body bg-dark-green text-light-green">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-green border-bottom border-green-accent">
             <div class="container-fluid">
                 <!-- Logo will go here once designed -->
-                <a class="navbar-brand" href="{% url 'cooked:home' %}">
+                <a class="navbar-brand fw-bold text-accent" href="{% url 'cooked:home' %}">
                     We're Cooked
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
@@ -20,8 +20,9 @@
                 </button>
                 <!-- Navbar content -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class ="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'cooked:home' %}">Home</a>
                         </li>
                         {% if user.is_authenticated %}
@@ -29,11 +30,11 @@
                             <a class="nav-link" href="{% url 'cooked:user_profile' %}">Profile</a>
                         </li>
                         {% endif %}
-                        <!-- there will be two more links to recipes and reviews in here -->
                     </ul>
+
                     <!-- Search bar: Tuoyu is building search functionality, will think link to search page or drop down?? -->
-                    <form class="d-flex me-3" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search...">
+                    <form class="d-flex me-2" role="search">
+                        <input class="form-control search-input me-2" type="search" placeholder="Search...">
                         <button class="btn btn-outline-light" type="submit">Search</button>
                     </form>
                     <!-- login/logout buttons -->
@@ -41,12 +42,12 @@
                             <a href="{% url 'cooked:logout' %}" class="btn btn-outline-light">Logout</a>
                     {% else %}
                             <a href="{% url 'cooked:login' %}" class="btn btn-outline-light me-2">Login</a>
-                            <a href="{% url 'cooked:signup' %}" class="btn btn-warning">Sign Up</a>
+                            <a href="{% url 'cooked:signup' %}" class="btn btn-accent">Sign Up</a>
                     {% endif %}
                 </div>
             </div>
         </nav>
-        <div class="container mt-4">
+        <div class="container main-content mt-4">
             {% block body_block %}
             {% endblock %}
         </div>

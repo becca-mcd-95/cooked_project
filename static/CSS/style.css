@@ -1,10 +1,60 @@
-.body{
-    background-color: rgb(26, 82, 51);
+:root{
+    --green-darkest: #0f1a0f;
+    --green-dark: #1b3320;
+    --green-mid: #2e5939;
+    --green-accent: #9be7a1;
+    --green-text: #e8f5e9;
 }
 
-.login_box{
-background-color: white;
+body{
+    background: linear-gradient(
+        180deg,
+        #253f25 0%,
+        #1f381f 40%,
+        #0b140b 100%
+    );
+    color: var(--green-text);
+    font-family: 'Inter', sans-serif;
 }
-.header{
-    background-color: rgb(2, 44, 2);
+
+.navbar{
+    background-color: var(--green-dark);
+}
+
+.navbar-brand, .nav-link, .btn-outline-light{
+    color: var(--green-text);
+}
+.nav-link:hover, .btn-outline-light:hover{
+    color: var(--green-accent);
+}
+.btn-warning{
+    background-color: var(--green-accent);
+    border: none;
+    color: var(--green-darkest);
+}
+.form-control{
+    background-color: var(--green-mid);
+    color: var(--green-text);
+    border: none;
+}
+.form-control::placeholder{
+    color: #cfe8d2;
+}
+.card{
+    background-color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    color: var(--green-text);
+    transition: transform 0.2s ease;
+}
+.card:hover{
+    border-color: var(--green-accent);
+    transform: translate(-3px);
+}
+.main-content {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    border-radius: 10px;
 }
