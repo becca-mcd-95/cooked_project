@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% if object %}Edit recipe{% else %}Create recipe{% endif %} - RecipeBoxd{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">{% if object %}Edit recipe{% else %}Create recipe{% endif %}</h2>
+      <a class="link" href="{% url 'recipe_list' %}">Back</a>
+    </div>
+
+    <form class="card form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <label class="label">Photo (optional)</label>
+      <input class="input" type="file" name="photo" accept="image/*" />
+      {{ form.photo.errors }}
+      {% if object and object.photo_path %}
+        <div class="muted">Current photo:</div>
+        <div class="thumb thumb--lg">
+          <img alt="recipe photo" src="{% static object.photo_path %}" loading="lazy" />
+        </div>
+      {% endif %}
+
+      <label class="label">Title</label>
+      {{ form.title }}
+
+      <label class="label">Country of origin (optional)</label>
+      {{ form.origin_country }}
+
+      <label class="label">Cooking time (minutes)</label>
+      {{ form.cooking_time_minutes }}
+
+      <label class="label">Instructions</label>
+      {{ form.instructions }}
+
+      <label class="label">Ingredients</label>
+      <div class="ingredient-picker">
+        <input class="input input--search" data-filter-input placeholder="Filter ingredients..." />
+        <div class="ingredient-picker__list" data-filter-list>
+          {% for cb in form.ingredients %}
+            <label class="check" data-filter-item>{{ cb.tag }} <span>{{ cb.choice_label }}</span></label>
+          {% empty %}
+            <div class="muted">No ingredients yet. Create some in admin or via seed data.</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <button class="btn btn--primary" type="submit">{% if object %}Save changes{% else %}Create{% endif %}</button>
+    </form>
+  </section>
+{% endblock %}
