@@ -9,15 +9,17 @@
 body {
     background: linear-gradient(
         180deg,
-        #0f1a0f 0%,
         #294e31 30%,
         #253f25 70%,
         #0f1a0f 100%
     );
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
 
 .navbar{
-    background-color: var(--green-dark);
+    background-color: var(--green-darkest) !important;
 }
 
 .navbar-brand, .nav-link, .btn-outline-light{
@@ -56,4 +58,5 @@ body {
     background-color: var(--green-dark);
     border: 1px solid var(--green-mid);
     border-radius: 10px;
+    color: white;
 }
