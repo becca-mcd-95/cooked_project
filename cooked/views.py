@@ -5,8 +5,7 @@ from django.contrib.auth import login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 
 def home(request):
-    context_dict = {'boldmessage': 'Under construction'}
-    return render(request, 'cooked/home.html', context=context_dict)
+    return render(request, 'cooked/home.html')
 
 def login(request):
     return render(request, 'cooked/login.html')
