@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}World map - RecipeBoxd{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
+{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">World map</h2>
+      <div class="muted">{{ completed_countries }} / {{ total_countries }} countries completed</div>
+    </div>
+
+    <div class="card">
+      <div class="muted" style="margin-bottom:10px">
+        Cook a recipe tagged with a country of origin to fill in that country.
+      </div>
+      <div id="worldMap" style="height:520px; width:100%"></div>
+      <noscript>
+        <div class="muted">This page needs JavaScript enabled to render the map.</div>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Completed countries</h2>
+    </div>
+
+    {% if completed %}
+      <div class="grid grid--two">
+        {% for c in completed %}
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; gap:10px; align-items:center">
+              <div style="font-weight:900">{{ c.name }}</div>
+              <div class="pill">{{ c.code }}</div>
+            </div>
+            <div class="muted" style="margin-top:6px">{{ c.count }} cooked recipe{% if c.count != 1 %}s{% endif %}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="empty__title">No countries completed yet</div>
+        <div class="muted">Mark a recipe as cooked to start filling your map.</div>
+      </div>
+    {% endif %}
+  </section>
+
+  {{ region_values|json_script:"region-values" }}
+  {{ code_to_name|json_script:"code-to-name" }}
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const el = document.getElementById("worldMap");
+      if (!el) return;
+      if (!window.jsVectorMap) {
+        el.innerHTML = '<div class="muted">Map library failed to load. If you are offline, use the offline setup in README.</div>';
+        return;
+      }
+
+      const values = JSON.parse(document.getElementById("region-values").textContent || "{}");
+      const codeToName = JSON.parse(document.getElementById("code-to-name").textContent || "{}");
+
+      new jsVectorMap({
+        selector: "#worldMap",
+        map: "world",
+        zoomButtons: true,
+        regionStyle: {
+          initial: { fill: "#e2e8f0" },
+          hover: { fill: "#a5b4fc" },
+          selected: { fill: "#2563eb" },
+        },
+        series: {
+          regions: [
+            {
+              values,
+              scale: ["#e5e7eb", "#2563eb"],
+              normalizeFunction: "polynomial",
+            },
+          ],
+        },
+        onRegionTooltipShow: (event, tooltip, code) => {
+          const n = values[code] || 0;
+          const name = codeToName[code] || tooltip.text();
+          tooltip.text(`${name}: ${n} cooked recipe${n === 1 ? "" : "s"}`);
+        },
+      });
+    });
+  </script>
+{% endblock %}
