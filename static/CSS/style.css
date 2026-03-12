@@ -53,7 +53,7 @@ body {
 }
 .main-content {
     max-width: 900px;
-    margin: 3rem auto;
+    margin: 5rem auto;
     padding: 2rem;
     background-color: var(--green-dark);
     border: 1px solid var(--green-mid);
