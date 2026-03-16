@@ -1,0 +1,92 @@
+<!-- Yanyan Template -->
+{% extends 'cooked/base.html' %}
+{% load static %}
+{% block title %}{{ recipe.title }} - RecipeBoxd{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="card recipe-detail" data-recipe-id="{{ recipe.id }}">
+      {% if recipe.photo_path %}
+        <div class="recipe-detail__media">
+          <img alt="{{ recipe.title }}" src="{% static recipe.photo_path %}" loading="lazy" />
+        </div>
+      {% endif %}
+      <div class="recipe-detail__top">
+        <div>
+          <h1 class="recipe-detail__title">{{ recipe.title }}</h1>
+          <div class="muted">
+            By <a class="link" href="{% url 'profile' recipe.author.username %}">@{{ recipe.author.username }}</a>
+            | {{ recipe.created_at|date:"Y-m-d" }}
+            {% if recipe.cooking_time_minutes %} | {{ recipe.cooking_time_minutes }} min{% endif %}
+            {% if recipe.origin_country %} | Origin: {{ recipe.origin_country.name }}{% endif %}
+          </div>
+        </div>
+        <div class="recipe-detail__rating">
+          <div class="stars" id="avgStars" data-stars="{{ recipe.avg_rating }}"></div>
+          <div class="muted"><span id="reviewCount">{{ recipe.reviews.count }}</span> reviews</div>
+        </div>
+      </div>
+
+      <div class="chips chips--big">
+        {% for ing in recipe.ingredients.all %}
+          <span class="chip">{{ ing.name }}</span>
+        {% empty %}
+          <span class="chip chip--muted">No ingredients set</span>
+        {% endfor %}
+      </div>
+
+      <div class="recipe-detail__actions">
+        {% if user.is_authenticated %}
+          <button class="btn {% if wishlist_active %}btn--ghost{% else %}btn--primary{% endif %}" data-status-toggle data-status="wishlist" type="button">
+            {% if wishlist_active %}In wishlist (remove){% else %}Add to wishlist{% endif %}
+          </button>
+          <button class="btn btn--ghost" data-status-toggle data-status="cooked" type="button">
+            {% if cooked_active %}Cooked (undo){% else %}Mark as cooked{% endif %}
+          </button>
+          {% if recipe.author_id == user.id %}
+            <a class="btn btn--ghost" href="{% url 'recipe_edit' recipe.id %}">Edit</a>
+            <a class="btn btn--danger" href="{% url 'recipe_delete' recipe.id %}">Delete</a>
+          {% endif %}
+        {% else %}
+          <a class="btn btn--primary" href="{% url 'login' %}?next={{ request.path|urlencode }}">Sign in to review</a>
+        {% endif %}
+      </div>
+
+      <hr class="sep" />
+      <h3 class="h3">Instructions</h3>
+      <div class="prose">{{ recipe.instructions|linebreaksbr }}</div>
+    </div>
+  </section>
+
+  {% if user.is_authenticated %}
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title">Your review</h2>
+      </div>
+      <form class="card form" id="reviewForm" method="post" action="{% url 'review_upsert' recipe.id %}">
+        {% csrf_token %}
+        <label class="label">Rating</label>
+        {{ review_form.rating }}
+        <label class="label">Comment</label>
+        {{ review_form.comment }}
+        <button class="btn btn--primary" type="submit">Submit</button>
+        <div class="muted" id="reviewError" style="display:none"></div>
+      </form>
+    </section>
+  {% endif %}
+
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Reviews</h2>
+    </div>
+    <div class="stack" id="reviews">
+      {% for review in recipe.reviews.all %}
+        {% include "recipes/_review_item.html" %}
+      {% empty %}
+        <div class="empty">
+          <div class="empty__title">No reviews yet</div>
+          <div class="muted">Be the first to leave a rating.</div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

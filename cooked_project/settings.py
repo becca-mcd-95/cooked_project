@@ -9,14 +9,20 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
+# Becca/original settings file 
 
 import os
+import sys
+from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATE_DIR = BASE_DIR / "templates"
+STATIC_DIR = BASE_DIR / "static"
+MEDIA_DIR = BASE_DIR / "media"
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -78,13 +84,44 @@ WSGI_APPLICATION = 'cooked_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+if DATABASE_URL:
+    DATABASES = {"default": database_from_url(DATABASE_URL)}
+else:
+    DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}}
 
+def database_from_url(url: str):
+    parts = urlsplit(url)
+    scheme = parts.scheme.lower()
+    if scheme in {"mysql", "mysql+connector", "mysql+mysqlclient"}:
+        query = parse_qs(parts.query or "")
+        name = parts.path.lstrip("/") or "recipeboxd_django"
+        options = {}
+        charset = (query.get("charset") or ["utf8mb4"])[0]
+        options["charset"] = charset
+        engine = os.environ.get("DJANGO_MYSQL_ENGINE", "mysql.connector.django").strip() or "mysql.connector.django"
+        if scheme == "mysql+mysqlclient":
+            engine = "django.db.backends.mysql"
+        if engine == "mysql.connector.django":
+            try:
+                import mysql.connector  # noqa: F401
+            except Exception as e:
+                raise RuntimeError(
+                    "MySQL is configured but mysql-connector-python is not installed. "
+                    "Run: python -m pip install mysql-connector-python"
+                ) from e
+        return {
+            "ENGINE": engine,
+            "NAME": name,
+            "USER": parts.username or "root",
+            "PASSWORD": parts.password or "",
+            "HOST": parts.hostname or "127.0.0.1",
+            "PORT": str(parts.port or 3306),
+            "OPTIONS": options,
+        }
+    if scheme.startswith("sqlite"):
+        return {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}
+    raise ValueError(f"Unsupported DATABASE_URL scheme: {scheme}")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -131,3 +168,8 @@ MEDIA_URL = '/media/'
 
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
+
+RECIPE_UPLOAD_ROOT = str(BASE_DIR / "static" / "uploads" / "recipes")
+LOGIN_REDIRECT_URL = "recipe_list"
+LOGOUT_REDIRECT_URL = "recipe_list"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

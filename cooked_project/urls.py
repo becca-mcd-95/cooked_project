@@ -25,5 +25,4 @@ urlpatterns = [
     path('cooked/', include('cooked.urls')),
     path('admin/', admin.site.urls),
     path('login/', auth_views.LoginView.as_view(template_name='cooked/login.html'), name='login'),
-    path('edit_profile/', views.edit_profile, name='edit_profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

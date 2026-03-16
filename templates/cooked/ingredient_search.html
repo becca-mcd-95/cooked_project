@@ -1,0 +1,50 @@
+<!-- Tuoyu template -->
+{% extends 'cooked/base.html' %}
+{% block title %}Ingredient search - RecipeBoxd{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Search by ingredients</h2>
+      <div class="muted">Strict = recipe requires only selected ingredients</div>
+    </div>
+
+    <div class="card form">
+      <label class="label">Mode</label>
+      <div class="seg">
+        <label class="seg__item"><input type="radio" name="mode" value="strict" {% if mode != 'loose' %}checked{% endif %} /> <span>Strict (all required)</span></label>
+        <label class="seg__item"><input type="radio" name="mode" value="loose" {% if mode == 'loose' %}checked{% endif %} /> <span>Loose (any match)</span></label>
+      </div>
+
+      <label class="label">Ingredients</label>
+      <div class="ingredient-picker" data-ingredient-search>
+        <input class="input input--search" data-filter-input placeholder="Filter ingredients..." />
+        <div class="ingredient-picker__list" data-filter-list>
+          {% for ing in ingredients %}
+            <label class="check" data-filter-item>
+              <input type="checkbox" value="{{ ing.id }}" />
+              <span>{{ ing.name }}</span>
+              <span class="muted">({{ ing.category }})</span>
+            </label>
+          {% empty %}
+            <div class="muted">No ingredients found. Run seed data or create some in admin.</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <button class="btn btn--primary" type="button" data-ingredient-submit>Search</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Results</h2>
+      <div class="muted"><span id="resultCount">0</span> recipes</div>
+    </div>
+    <div id="filterResults">
+      <div class="empty">
+        <div class="empty__title">No results</div>
+        <div class="muted">Select ingredients and click Search.</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
