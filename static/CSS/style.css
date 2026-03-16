@@ -6,7 +6,6 @@
     --green-accent: #9be7a1;
     --green-text: #e8f5e9;
 }
-
 body {
     background: linear-gradient(
         180deg,
@@ -18,11 +17,26 @@ body {
     background-repeat: no-repeat;
     min-height: 100vh;
 }
-
+.homepage-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+.section{
+    margin-top: 3rem;
+}
+.section-heading{
+    color: var(--green-text);
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
 .navbar{
     background-color: var(--green-darkest) !important;
 }
-
+.hero-section{
+    margin-bottom: 3rem;
+}
 .navbar-brand, .nav-link, .btn-outline-light{
     color: var(--green-text);
 }
@@ -60,4 +74,87 @@ body {
     border: 1px solid var(--green-mid);
     border-radius: 10px;
     color: white;
+}
+
+.recipe-picture {
+    position: relative;
+    width: 150px;
+    height: 225px;
+    /* testing */
+    background-color: var(--green-dark); 
+}
+.recipe-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.overlay-actions{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2 ease, visibility 0.2s ease;
+}
+.recipe-picture:hover .overlay-actions{
+    opacity: 1;
+    visibility: visible;
+}
+.review-item{
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--green-accent);
+}
+.review-thumb img{
+    width: 70px;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.review-content{
+    flex: 1;
+}
+.review-header{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.review-title{
+    font-weight: 600;
+    color: var(--green-text);
+}
+/* .review-rating{
+    /* need to figure out icons... should the hat be yellow or white */
+    /* color: #f5c518;  */
+/* } */ 
+.review-text{
+    margin: 0.5rem 0;
+    color: var(--green-text)
+}
+.review-meta{
+    font-size: 0.85rem;
+    color: var(--green-text);
+    display: flex;
+    gap: 1rem;
+}
+/* testing this out... */
+.chef-icon {
+    font-size: 1rem;
+    color: #f5c518; /* same yellow as Letterboxd stars */
+}
+.poster-list {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 700px;
 }
