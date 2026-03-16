@@ -1,308 +1,178 @@
 <!-- Becca template -->
 {% extends 'cooked/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block content %}
- <div class="homepage-container">
-    <div class="hero-section">
-      <span class="hero-label">A social recipe platform</span>
-      <h1 class="hero-title">Discover, cook, and<br><em>share</em> recipes</h1>
-      <p class="hero-sub">Track every dish you've cooked, find recipes by ingredient, rate and review what you've tried, and share your culinary adventures.</p>
-    </div>
-    <section id="new-recipes" class="section">
-      <h2 class="section-heading">New recipes this week...</h2>
-      <ul class="poster-list">
-        {% for recipe in new_recipes %}
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </section>
-    <section id="popular-recipes" class="section">
-      <h2 class="section-heading">Popular this week...</h2>
-      <ul class="poster-list">
-        {% for recipe in popular_recipes %}
-                <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        <li class="posteritem viewing-poster-container" data-owner="Placeholder" data-object-id="" data-object-name="recipe">
-          <a href="javascript:void(0)" class="recipe-picture - attributed" data-cooked="false" data-in-wishlist="false">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image" class="recipe-img">
-            <span class="overlay-actions -w150">
-              <span class="cook-link">
-                  <span class="has-icon icon-16 icon-cook">
-                    <span class="icon"></span>
-                    "Cook this recipe?"
-                  </span>
-                </span>
-                <span class="wishlist-link-target">
-                  <span class="has icon icon-16 wishlist-link icon-wishlist">
-                    <span class="icon"></span>
-                  </span>
-                </span>
-              <span class="replace menu-link icon"></span>
-            </span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </section>
-    <section id="popular-reviews" class="section">
-      <h2 class="section-heading">Hot reviews...</h2>
-      <ul class="review-list">
-        <li class="review-item">
-          <a href="javascript:void(0)" class="review-thumb">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image">
-          </a>
-
-          <div class="review-content">
-            <div class="review-header">
-                <a href="javascript:void(0)" class="review-title">Recipe Name</a>
-                <span class="bi bi-egg-fried chef-icon"></span>
-            </div>
-
-            <p class="review-text">
-                Review preview - click for more 
-            </p>
-
-            <div class="review-meta">
-                <span class="review-author">by PlaceholderUser</span>
-                <span class="review-likes">1,234 likes</span>
-            </div>
-          </div>
-        </li>
-        <li class="review-item">
-          <a href="javascript:void(0)" class="review-thumb">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image">
-          </a>
-
-          <div class="review-content">
-            <div class="review-header">
-                <a href="javascript:void(0)" class="review-title">Recipe Name</a>
-                <span class="bi bi-egg-fried chef-icon"></span>
-            </div>
-
-            <p class="review-text">
-                Review preview - click for more 
-            </p>
-
-            <div class="review-meta">
-                <span class="review-author">by PlaceholderUser</span>
-                <span class="review-likes">1,234 likes</span>
-            </div>
-          </div>
-        </li>
-        <li class="review-item">
-          <a href="javascript:void(0)" class="review-thumb">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image">
-          </a>
-
-          <div class="review-content">
-            <div class="review-header">
-                <a href="javascript:void(0)" class="review-title">Recipe Name</a>
-                <span class="bi bi-egg-fried chef-icon"></span>
-            </div>
-
-            <p class="review-text">
-                Review preview - click for more 
-            </p>
-
-            <div class="review-meta">
-                <span class="review-author">by PlaceholderUser</span>
-                <span class="review-likes">1,234 likes</span>
-            </div>
-          </div>
-        </li>
-        <li class="review-item">
-          <a href="javascript:void(0)" class="review-thumb">
-            <img src="{% static 'cooked/placeholder.png' %}" alt="Recipe image">
-          </a>
-
-          <div class="review-content">
-            <div class="review-header">
-                <a href="javascript:void(0)" class="review-title">Recipe Name</a>
-                <span class="bi bi-egg-fried chef-icon"></span>
-            </div>
-
-            <p class="review-text">
-                Review preview - click for more 
-            </p>
-
-            <div class="review-meta">
-                <span class="review-author">by PlaceholderUser</span>
-                <span class="review-likes">1,234 likes</span>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </section>
+<div class="homepage-container">
+  <!-- hero block -->
+  <div class="hero-section">
+    <span class="hero-label">A social recipe platform</span>
+    <h1 class="hero-title">Discover, cook, and<br><em>share</em> recipes</h1>
+    <p class="hero-sub">Track every dish you've cooked, find recipes by ingredient, rate and review what you've tried, and share your culinary adventures.</p>
   </div>
+  <!-- new recipe block -->
+  <section id="new-recipes" class="section">
+    <div class="section-header">
+      <h2 class="section-heading">New recipes this week...</h2>
+      <a href="{% url 'cooked:recipe_list' %}" class="section-more">More →</a>
+    </div>
+    <ul class="poster-list">
+      {% for recipe in new_recipes %}
+      <li class="posteritem viewing-poster-container" data-owner="{{ recipe.author.username }}" data-object-id="{{ recipe.id }}"data-object-name="recipe">
+        <a href="{% url 'cooked:recipe_detail' recipe.id %}"class="recipe-picture" data-cooked="false" data-in-wishlist="false">
+ 
+          {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-img">
+          {% else %}
+            <img src="{% static 'images/placeholder.png' %}" alt="{{ recipe.title }}" class="recipe-img">
+          {% endif %}
+ 
+          <span class="overlay-actions">
+            <span class="cook-link">
+              <span class="has-icon icon-16 icon-cook">
+                <span class="icon"></span>
+                Cook this?
+              </span>
+            </span>
+            <span class="wishlist-link-target">
+              <span class="has-icon icon-16 wishlist-link icon-wishlist">
+                <span class="icon"></span>
+              </span>
+            </span>
+            <span class="replace menu-link icon"></span>
+          </span>
+ 
+        </a>
+        <p class="poster-title">{{ recipe.title }}</p>
+      </li>
+      {% empty %}
+      <!-- Placeholder because there are no recipes on site yet -->
+      {% for i in "12345" %}
+      <li class="posteritem skeleton-item">
+        <div class="recipe-picture skeleton-poster"></div>
+        <p class="poster-title skeleton-text"></p>
+      </li>
+      {% endfor %}
+      {% endfor %}
+    </ul>
+  </section>
+  <!-- Popular recipes block -->
+  <section id="popular-recipes" class="section">
+    <div class="section-header">
+      <h2 class="section-heading">Popular this week...</h2>
+      <a href="{% url 'cooked:recipe_list' %}" class="section-more">More →</a>
+    </div>
+    <ul class="poster-list">
+      {% for recipe in popular_recipes %}
+      <li class="posteritem viewing-poster-container"
+          data-owner="{{ recipe.author.username }}"
+          data-object-id="{{ recipe.id }}"
+          data-object-name="recipe">
+        <a href="{% url 'cooked:recipe_detail' recipe.id %}"
+           class="recipe-picture"
+           data-cooked="false"
+           data-in-wishlist="false">
+ 
+          {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-img">
+          {% else %}
+            <img src="{% static 'images/placeholder.png' %}" alt="{{ recipe.title }}" class="recipe-img">
+          {% endif %}
+ 
+          <span class="overlay-actions">
+            <span class="cook-link">
+              <span class="has-icon icon-16 icon-cook">
+                <span class="icon"></span>
+                Cook this?
+              </span>
+            </span>
+            <span class="wishlist-link-target">
+              <span class="has-icon icon-16 wishlist-link icon-wishlist">
+                <span class="icon"></span>
+              </span>
+            </span>
+            <span class="replace menu-link icon"></span>
+          </span>
+ 
+        </a>
+        <p class="poster-title">{{ recipe.title }}</p>
+      </li>
+      {% empty %}
+      {% for i in "12345" %}
+      <li class="posteritem skeleton-item">
+        <div class="recipe-picture skeleton-poster"></div>
+        <p class="poster-title skeleton-text"></p>
+      </li>
+      {% endfor %}
+      {% endfor %}
+    </ul>
+  </section>
+    <!-- Hot reviews block -->
+  <section id="popular-reviews" class="section">
+    <div class="section-header">
+      <h2 class="section-heading">Hot reviews...</h2>
+      <a href="#" class="section-more">More →</a>
+    </div>
+ 
+    <div class="review-grid">
+ 
+      {% for review in popular_reviews %}
+      <div class="review-card">
+        <a href="javascript:void(0)" class="review-card-thumb">
+          {% if review.recipe.image %}
+            <img src="{{ review.recipe.image.url }}" alt="{{ review.recipe.title }}">
+          {% else %}
+            <img src="{% static 'images/placeholder.png' %}" alt="{{ review.recipe.title }}">
+          {% endif %}
+        </a>
+        <div class="review-card-body">
+          <div class="review-card-header">
+            <span class="review-card-author">{{ review.author.username }}</span>
+            <div class="review-card-rating">
+              {% for i in "12345" %}
+                <span class="bi bi-cup-hot{% if forloop.counter <= review.rating %}-fill{% endif %} chef-icon-sm"></span>
+              {% endfor %}
+            </div>
+          </div>
+          <a href="javascript:void(0)" class="review-card-title">{{ review.recipe.title }}</a>
+          <p class="review-card-text">{{ review.comment_text|truncatechars:160 }}</p>
+          <div class="review-card-meta">
+            <span class="review-likes"><i class="bi bi-heart-fill"></i> {{ review.like_count|default:"0" }}</span>
+          </div>
+        </div>
+      </div>
+ 
+      {% empty %}
+      <!-- Placeholder reviews -->
+      {% for i in "1234" %}
+      <div class="review-card">
+        <a href="javascript:void(0)" class="review-card-thumb">
+          <img src="{% static 'images/placeholder.png' %}" alt="Recipe image">
+        </a>
+        <div class="review-card-body">
+          <div class="review-card-header">
+            <span class="review-card-author">PlaceholderUser</span>
+            <div class="review-card-rating">
+              <span class="bi bi-cup-hot-fill chef-icon-sm"></span>
+              <span class="bi bi-cup-hot-fill chef-icon-sm"></span>
+              <span class="bi bi-cup-hot-fill chef-icon-sm"></span>
+              <span class="bi bi-cup-hot chef-icon-sm"></span>
+              <span class="bi bi-cup-hot chef-icon-sm"></span>
+            </div>
+          </div>
+          <a href="javascript:void(0)" class="review-card-title">Recipe Name</a>
+          <p class="review-card-text">Review preview text goes here — click to read the full review and see what this user thought about the dish.</p>
+          <div class="review-card-meta">
+            <span class="review-likes"><i class="bi bi-heart-fill"></i> 1,234</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endfor %}
+ 
+    </div>
+  </section>
+</div>
 {% endblock%}
 
 <!-- In here we will have title block, 
