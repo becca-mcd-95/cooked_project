@@ -2,7 +2,7 @@
 {% extends 'cooked/base.html' %}
 {% load staticfiles %}
 
-{% block body_block %}
+{% block content %}
 <form method='post'>
     {% csrf_token %}
     {{ form.as_p }}
