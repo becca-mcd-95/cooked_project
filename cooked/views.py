@@ -42,10 +42,9 @@ def signup(request):
 @login_required
 def user_profile(request):
     profile = request.user.profile
-    cooked_recipes = Recipe.objects.filter(
-        statuses__user = request.user,
-        statuses__status = RecipeStatus.STATUS_COOKED
-    ).select_related('author', 'origin_country').order_by('-statuses__created_at')
+    cooked_recipes = list(Recipe.objects.filter(
+        statuses__user=request.user,
+        statuses__status=RecipeStatus.STATUS_COOKED).select_related('author'))
 
     wishlist_recipes = Recipe.objects.filter(
         statuses__user = request.user,
@@ -59,7 +58,7 @@ def user_profile(request):
     following_count = Follow.objects.filter(follower=request.user).count()
     follower_count = Follow.objects.filter(following=request.user).count()
     return render(request, 'cooked/user_profile.html', {
-        'profile': profile, 'cooked_recipes':cooked_recipes, 'wishlist_recipes':wishlist_recipes, 'cooked_count': cooked_recipes.count(),
+        'profile': profile, 'cooked_recipes':cooked_recipes, 'wishlist_recipes':wishlist_recipes, 'cooked_count': len(cooked_recipes),
         'wishlist_count': wishlist_recipes.count(), 'recent_reviews': recent_reviews, 'review_count':Review.objects.filter(user=request.user).count(),
         'following_count': following_count,'follower_count':follower_count, 'is_following':False})
 
