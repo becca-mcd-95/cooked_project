@@ -38,12 +38,66 @@
                         </a>
                         {% endif %}
                     </div>
-
+                    {% if profile.bio %}
+                    <p class="profile-bio mb-0">{{ profile.bio }}</p>
+                    {% else %}
+                    <p class="profile-bio profile-bio--empty mb-0">No bio yet...</p>
+                    {% endif %}
+                </div>
+                <!-- considering taking this out... -->
+                <div class="profile-stats-card mt-2">
+                    <p class="stats-label mb-1">Chef level:</p>
+                    <div class="d-flex gap-1 mb-3">
+                        <i class="bi bi-cup-hot-fill chef-hat-icon"></i>
+                        <i class="bi bi-cup-hot-fill chef-hat-icon"></i>
+                        <i class="bi bi-cup-hot chef-hat-icon chef-hat-icon--empty"></i>
+                        <i class="bi bi-cup-hot chef-hat-icon chef-hat-icon--empty"></i>
+                        <i class="bi bi-cup-hot chef-hat-icon chef-hat-icon--empty"></i>
+                    </div>
+                </div>
+                <div class="d-flex flex-column gap-1">
+                    <div class="d-flex align-items-center gap-2">
+                    <span class="stats-label mb-0">Following:</span>
+                    <span class="stats-value">{{ following_count }}</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="stats-label mb-0">Followers:</span>
+                    <span class="stats-value">{{ followers_count }}</span>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row g-3 mb-5">
+    <div class="col-md-4">
+        <div class="stats-box h-100">
+            <h3 class ="stats-box-title">Recipes</h3>
+            <p class="stats-line mb-2">
+                <i class="bi bi-cup-hot"></i> to try: <strong>{{ cooked_count }}</strong>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-box h-100 d-flex flex-colum align-items-center justify-content-center">
+            <h3 class="stats-box-title w-100">Reviews</h3>
+            <span class="stats-big-number">{{ review_count }}</span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-box h-100">
+            <h3 class="stats-box-title">Recent Reviews</h3>
+            {% for review in recent_reviews %}
+            <p class="stats-review-line mb-0">
+                <a href="javascript:void(0)" class="stats-review-link">{{ review.recipe.title }}</a>
+            </p>
+            {% empty %}
+            <p class="stats-empty mb-0">No reviews yet.</p>
+            {% endfor %}
+        </div>
+    </div>
 </div>
+
+</div>
+
 {% endblock%}
 
 <!-- In this page we will have photo header, profile photo, ideally mechanism for 
