@@ -42,7 +42,26 @@ def signup(request):
 @login_required
 def user_profile(request):
     profile = request.user.profile
-    return render(request, 'cooked/user_profile.html', {'profile': profile})
+    cooked_recipes = Recipe.objects.filter(
+        statuses__user = request.user,
+        statuses__status = RecipeStatus.STATUS_COOKED
+    ).select_related('author', 'origin_country').order_by('-statuses__created_at')
+
+    wishlist_recipes = Recipe.objects.filter(
+        statuses__user = request.user,
+        statuses__status = RecipeStatus.STATUS_WISHLIST
+    ).select_related('author', 'origin_country').order_by('-statuses__created_at')
+
+    recent_reviews = Review.objects.filter(
+        user = request.user
+    ).select_related('recipe').order_by('-created_at')[:4]
+
+    following_count = Follow.objects.filter(follower=request.user).count()
+    follower_count = Follow.objects.filter(following=request.user).count()
+    return render(request, 'cooked/user_profile.html', {
+        'profile': profile, 'cooked_recipes':cooked_recipes, 'wishlist_recipes':wishlist_recipes, 'cooked_count': cooked_recipes.count(),
+        'wishlist_count': wishlist_recipes.count(), 'recent_reviews': recent_reviews, 'review_count':Review.objects.filter(user=request.user).count(),
+        'following_count': following_count,'follower_count':follower_count, 'is_following':False})
 
 @login_required
 def edit_profile(request):
