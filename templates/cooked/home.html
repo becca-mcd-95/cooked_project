@@ -1,7 +1,6 @@
 <!-- Becca template -->
 {% extends 'cooked/base.html' %}
 {% load static %}
-<!-- testing rebuilt homepae -->
 {% block content %}
 <div class="homepage-container">
 
@@ -58,7 +57,7 @@
         {% for i in "12345678" %}
         <li class="posteritem">
           <a href="javascript:void(0)" class="recipe-picture">
-            <img src="https://placehold.co/145x218/2e5939/9be7a1?text=🍽" alt="No recipes yet" class="recipe-img">
+            <img src="{% static 'images/salad.png' %}" alt="No recipes yet" class="recipe-img">
           </a>
           <p class="poster-title">Coming soon</p>
         </li>
@@ -114,7 +113,7 @@
         {% for i in "12345678" %}
         <li class="posteritem">
           <a href="javascript:void(0)" class="recipe-picture">
-            <img src="https://placehold.co/145x218/2e5939/9be7a1?text=🍽" alt="No recipes yet" class="recipe-img">
+            <img src="{% static 'images/tandoori_prawn.png' %}" alt="No recipes yet" class="recipe-img">
           </a>
           <p class="poster-title">Coming soon</p>
         </li>

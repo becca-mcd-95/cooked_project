@@ -193,8 +193,6 @@ class RecipeDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy("cooked:recipe_list")
 
-
-
 @require_POST
 @login_required
 def review_upsert(request: HttpRequest, recipe_id: int):
@@ -233,7 +231,6 @@ def review_upsert(request: HttpRequest, recipe_id: int):
             "html": html,
         }
     )
-
 
 @require_POST
 @login_required
