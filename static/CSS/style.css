@@ -1,80 +1,65 @@
 /* Becca CSS Style file */
-:root{
-    --green-darkest: #0f1a0f;
-    --green-dark: #1b3320;
-    --green-mid: #2e5939;
-    --green-accent: #9be7a1;
-    --green-text: #e8f5e9;
+:root {
+    --green-darkest:  #0f1a0f;
+    --green-dark:     #1b3320;
+    --green-mid:      #2e5939;
+    --green-accent:   #9be7a1;
+    --green-text:     #e8f5e9;
+    --green-muted:    #a8c8aa;
+    --gold:           #f5c518;
+    --overlay-bg:     rgba(15, 26, 15, 0.85);
+    --card-radius:    6px;
+    --transition:     0.2s ease;
 }
+
 body {
     background: linear-gradient(
         180deg,
-        #294e31 30%,
-        #253f25 70%,
+        #294e31 0%,
+        #253f25 55%,
         #0f1a0f 100%
     );
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-attachment: fixed;
     min-height: 100vh;
-}
-.homepage-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-    background-color: rgba(15, 26, 15, 0.25);
-    border-radius: 8px;
-
-}
-.section{
-    margin-top: 3.5rem;
-}
-.section-heading {
-    font-size: 1.9rem;
-    font-weight: 700;
-    margin-bottom: 1.2rem;
-    color: var(--green-accent);
-}
-
-.navbar{
-    background-color: var(--green-darkest) !important;
-}
-.hero-section {
-    text-align: center;
-    padding: 3rem 1rem;
-    background-color: rgba(15, 26, 15, 0.6);
-    border-radius: 8px;
-    margin-bottom: 3rem;
-}
-
-.navbar-brand, .nav-link, .btn-outline-light{
     color: var(--green-text);
 }
-.nav-link:hover, .btn-outline-light:hover{
+/* navbar */
+.navbar {
+    background-color: var(--green-darkest) !important;
+    border-bottom: 1px solid var(--green-mid);
+}
+.navbar-brand, .nav-link, .btn-outline-light {
+    color: var(--green-text);
+}
+.nav-link:hover {
     color: var(--green-accent);
 }
-.btn-warning{
+.btn-outline-light:hover {
+    color: var(--green-darkest);
+    background-color: var(--green-accent);
+    border-color: var(--green-accent);
+}
+.btn-warning {
     background-color: var(--green-accent);
     border: none;
     color: var(--green-darkest);
+    font-weight: 600;
 }
-.form-control{
+.form-control {
     background-color: var(--green-mid);
     color: var(--green-text);
     border: none;
 }
-.form-control::placeholder{
+.form-control::placeholder {
     color: #cfe8d2;
 }
-.card{
-    background-color: var(--green-dark);
-    border: 1px solid var(--green-mid);
-    color: var(--green-text);
-    transition: transform 0.2s ease;
+
+.homepage-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
 }
-.card:hover{
-    border-color: var(--green-accent);
-    transform: translate(-3px);
-}
+
 .main-content {
     max-width: 900px;
     margin: 3rem auto;
@@ -82,102 +67,345 @@ body {
     background-color: var(--green-dark);
     border: 1px solid var(--green-mid);
     border-radius: 10px;
-    color: white;
 }
 
+/* hero section  */
+.hero-section {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background-color: rgba(15, 26, 15, 0.7);
+    border: 1px solid var(--green-mid);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+.hero-label {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-accent);
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+.hero-title em {
+    font-style: italic;
+    color: var(--green-accent);
+}
+.hero-sub {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1rem;
+    color: var(--green-muted);
+    line-height: 1.6;
+}
+
+.section {
+    margin-top: 3.5rem;
+}
+.section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--green-mid);
+    padding-bottom: 0.5rem;
+}
+.section-heading {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green-text);
+    margin: 0;
+}
+.section-more {
+    font-size: 0.78rem;
+    color: var(--green-accent);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+.section-more:hover {
+    color: #fff;
+}
+
+/* recipe posters */
+.poster-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    /* hide scrollbar but keep scroll */
+    scrollbar-width: thin;
+    scrollbar-color: var(--green-mid) transparent;
+}
+.poster-list::-webkit-scrollbar {
+    height: 4px;
+}
+.poster-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.poster-list::-webkit-scrollbar-thumb {
+    background: var(--green-mid);
+    border-radius: 2px;
+}
+
+.posteritem {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.poster-shelf {
+    background-color: rgba(46, 89, 57, 0.35);
+    border: 1px solid var(--green-mid);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+}
+
+/* The poster card */
 .recipe-picture {
-    width: 150px;
-    height: 225px;
-    border-radius: 4px;
+    width: 112px;
+    height: 168px;
+    border-radius: var(--card-radius);
     overflow: hidden;
     position: relative;
     display: block;
+    background-color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    transition: border-color var(--transition), transform var(--transition);
 }
-.recipe-img{
+.recipe-picture:hover {
+    border-color: var(--green-accent);
+    transform: translateY(-3px);
+}
+.recipe-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
-.overlay-actions{
+
+/* Hover overlay */
+.overlay-actions {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 0.6rem;
     opacity: 0;
     visibility: hidden;
-    background: var(--green-dark);
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    background: var(--overlay-bg);
+    transition: opacity var(--transition), visibility var(--transition);
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--green-text);
+}
+.recipe-picture:hover .overlay-actions {
+    opacity: 1;
+    visibility: visible;
 }
 .overlay-actions .icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
     filter: brightness(0) invert(1);
 }
 
-.recipe-picture:hover .overlay-actions{
-    opacity: 1;
-    visibility: visible;
+/* Poster title below card */
+.poster-title {
+    width: 145px;
+    font-size: 0.7rem;
+    color: var(--green-muted);
+    line-height: 1.3;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.review-item{
+/* hot reviews grid */
+.review-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.review-card {
     display: flex;
-    gap: 1rem;
+    gap: 0.85rem;
     padding: 1rem 0;
-    border-bottom: 1px solid var(--green-accent);
+    border-bottom: 1px solid var(--green-mid);
 }
-.review-thumb img{
-    width: 70px;
-    height: 105px;
+/* Left column cards get a right divider */
+.review-card:nth-child(odd) {
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--green-mid);
+}
+.review-card:nth-child(even) {
+    padding-left: 1.5rem;
+}
+
+.review-card-thumb {
+    flex: 0 0 54px;
+}
+.review-card-thumb img {
+    width: 54px;
+    height: 81px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--green-mid);
+    display: block;
+    transition: border-color var(--transition);
 }
-.review-content{
+.review-card-thumb:hover img {
+    border-color: var(--green-accent);
+}
+
+.review-card-body {
     flex: 1;
+    min-width: 0;
 }
-.review-header{
+.review-card-header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: space-between;
+    gap: 0.4rem;
+    margin-bottom: 0.15rem;
 }
-.review-title{
+.review-card-author {
+    font-size: 0.78rem;
     font-weight: 600;
-    color: var(--green-text);
+    color: var(--green-muted);
 }
-/* .review-rating{
-    /* need to figure out icons... should the hat be yellow or white */
-    /* color: #f5c518;  */
-/* } */ 
-.review-text{
-    margin: 0.5rem 0;
-    color: var(--green-text)
-}
-.review-meta{
-    font-size: 0.85rem;
-    color: var(--green-text);
+.review-card-rating {
     display: flex;
-    gap: 1rem;
+    gap: 1px;
 }
-/* testing this out... */
-.chef-icon {
+.chef-icon-sm {
+    font-size: 0.7rem;
+    color: var(--gold);
+}
+
+.review-card-title {
+    display: block;
     font-size: 1rem;
-    color: #f5c518; /* same yellow as Letterboxd stars */
+    font-weight: 700;
+    color: var(--green-text);
+    text-decoration: none;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
 }
-.poster-list {
-    display: flex;
-    gap: 0.75rem;
-    overflow-x: auto;
-    padding: 0.25rem 0;
+.review-card-title:hover {
+    color: var(--green-accent);
 }
+.review-card-text {
+    font-size: 0.82rem;
+    color: var(--green-muted);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    /* clamp to 3 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.review-card-meta {
+    font-size: 0.75rem;
+    color: var(--green-muted);
+}
+.review-likes {
+    color: #e05a5a;
+}
+.review-likes i {
+    margin-right: 2px;
+}
+
+
 .review-list {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     max-width: 700px;
 }
+.review-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--green-accent);
+}
+.review-thumb img {
+    width: 54px;
+    height: 81px;
+    object-fit: cover;
+    border-radius: var(--card-radius);
+}
+.review-content { flex: 1; }
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.review-title {
+    font-weight: 600;
+    color: var(--green-text);
+    text-decoration: none;
+}
+.review-text {
+    margin: 0.5rem 0;
+    color: var(--green-text);
+    font-size: 0.9rem;
+}
+.review-meta {
+    font-size: 0.85rem;
+    color: var(--green-muted);
+    display: flex;
+    gap: 1rem;
+}
+.chef-icon {
+    font-size: 1rem;
+    color: var(--gold);
+}
 
-.posteritem {
-    flex: 0 0 auto;
+.card {
+    background-color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    color: var(--green-text);
+    transition: transform var(--transition);
+}
+.card:hover {
+    border-color: var(--green-accent);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 640px) {
+    .review-grid {
+        grid-template-columns: 1fr;
+    }
+    .review-card:nth-child(odd) {
+        padding-right: 0;
+        border-right: none;
+    }
+    .review-card:nth-child(even) {
+        padding-left: 0;
+    }
+    .hero-title {
+        font-size: 1.8rem;
+    }
 }
