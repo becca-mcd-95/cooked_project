@@ -79,6 +79,10 @@ def search_users(request):
     users = User.objects.filter(username__icontains=q) if q else []
     return render(request, "cooked/search_users.html", {"query": q, "users": users})
 
+# temporary view for hardcoding content to user_profile, again can be removed 
+
+def demo_profile(request):
+    return render(request, 'cooked/user_profile_demo.html')
 
 # Yanyan views 
 

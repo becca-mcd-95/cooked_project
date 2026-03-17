@@ -21,6 +21,8 @@ urlpatterns = [
     path('recipe/<int:recipe_id>/status/', views.status_toggle, name='status_toggle'), # Tuoyu
     path('search/', views.search_users, name='search_users'),
     path('ingredient_search/', views.ingredient_search, name='ingredient_search'),
+    # temporary url path to allow hardcoding of content for user profile, we can remove this if we want
+    path('demo_profile/', views.demo_profile, name='demo_profile'), 
 
 
 ]
