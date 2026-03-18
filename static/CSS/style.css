@@ -554,6 +554,55 @@ body {
     font-weight: 700;
     color: var(--green-text);
 }
+/* edit profile page */
+.edit-banner-wrap {
+    position: relative;
+    margin-bottom: 50px; /* space for avatar overlap */
+}
+.edit-avatar-wrap {
+    position: absolute;
+    bottom: -80px;
+    left: 20px;
+}
+.edit-photo-btn {
+    position: absolute;
+    background-color: rgba(0,0,0,0.45);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+.edit-photo-btn:hover { 
+    background-color: rgba(0,0,0,0.65); 
+}
+
+.edit-banner-btn { 
+    bottom: 8px; 
+    right: 8px; 
+}
+
+.edit-avatar-btn { 
+    bottom: 0; 
+    right: -4px; 
+}
+
+.edit-file-input { 
+    display: none; 
+}
+.auth-cancel-btn {
+    border-color: #b0c8b4;
+    color: #4a6650;
+}
+.auth-cancel-btn:hover {
+    background-color: #e8f0e8;
+    color: var(--green-darkest);
+}
 /* login/sign up css */
 .auth-page{
     min-height: calc(100vh - 60px);
