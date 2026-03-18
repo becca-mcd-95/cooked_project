@@ -87,12 +87,6 @@ WSGI_APPLICATION = 'cooked_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
-if DATABASE_URL:
-    DATABASES = {"default": database_from_url(DATABASE_URL)}
-else:
-    DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}}
-
 def database_from_url(url: str):
     parts = urlsplit(url)
     scheme = parts.scheme.lower()
@@ -125,6 +119,13 @@ def database_from_url(url: str):
     if scheme.startswith("sqlite"):
         return {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}
     raise ValueError(f"Unsupported DATABASE_URL scheme: {scheme}")
+
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+if DATABASE_URL:
+    DATABASES = {"default": database_from_url(DATABASE_URL)}
+else:
+    DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -170,9 +171,9 @@ MEDIA_URL = '/media/'
 #database InternetTech2026!
 
 LOGIN_URL = '/login/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/cooked/'
 
 RECIPE_UPLOAD_ROOT = str(BASE_DIR / "static" / "uploads" / "recipes")
 LOGIN_REDIRECT_URL = "recipe_list"
-LOGOUT_REDIRECT_URL = "recipe_list"
+LOGOUT_REDIRECT_URL = "/cooked/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
