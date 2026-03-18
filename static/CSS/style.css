@@ -573,8 +573,24 @@ body {
 }
 .edit-avatar-wrap {
     position: absolute;
-    bottom: -80px;
+    bottom: -40px;
     left: 20px;
+}
+.edit-avatar-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f0f4f0;
+    display: block;
+    background-color: #b0c8b4;
+}
+.edit-avatar-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #4a6650;
 }
 .edit-photo-btn {
     position: absolute;
