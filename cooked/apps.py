@@ -4,8 +4,9 @@ from cooked.models import create_user_profile
 class CookedConfig(AppConfig):
     name = 'cooked'
 
-def ready(self):
-    import cooked.models
+    def ready(self):
+        create_user_profile()
+
 
 """
 Commenting out the below because I'm not sure what it influences 
