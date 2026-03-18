@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile - RecipeBoxd{% endblock %}
+{% block extra_head %}
+  {% load static %}
+  <script defer src="{% static 'js/member1_accounts.js' %}?v=20260317-1"></script>
+{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="section__header">
+      <h1 class="section__title">Edit Profile</h1>
+      <a class="btn btn--ghost btn--sm" href="{% url 'account_profile' %}">Back</a>
+    </div>
+
+    <div class="card" style="padding:16px">
+      <form class="form" method="post" data-member1-edit-form>
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="flash flash--error">{{ form.non_field_errors }}</div>{% endif %}
+
+        <label class="label">Name</label>
+        <input class="input" name="display_name" value="{{ form.display_name.value|default:'' }}" />
+
+        <label class="label">Username</label>
+        <input class="input" name="username" value="{{ form.username.value|default:user.username }}" required />
+        {% if form.username.errors %}<div class="muted">{{ form.username.errors }}</div>{% endif %}
+
+        <label class="label">Bio</label>
+        <textarea class="input input--textarea" name="bio" rows="5">{{ form.bio.value|default:'' }}</textarea>
+
+        <div class="flash flash--error" data-member1-edit-error style="display:none"></div>
+        <button class="btn btn--primary" type="submit">Save changes</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
