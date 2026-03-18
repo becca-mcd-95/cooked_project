@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as auth_login
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -22,7 +24,15 @@ def home(request):
     return render(request, 'cooked/home.html')
 
 def login(request):
-    return render(request, 'cooked/login.html')
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)
+            return redirect('cooked:user_profile')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'cooked/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
