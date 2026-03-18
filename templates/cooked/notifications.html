@@ -1,0 +1,39 @@
+<!-- Tuoyu template -->
+{% extends 'cooked/base.html' %}
+{% block title %}Notifications - RecipeBoxd{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Review notifications</h2>
+      <div class="muted">Reviews received on your recipes</div>
+    </div>
+
+    {% if reviews %}
+      <div class="stack">
+        {% for rev in reviews %}
+          <div class="card review-card">
+            <div class="review-card__top">
+              <div>
+                <a class="link" href="{% url 'profile' rev.user.username %}">@{{ rev.user.username }}</a>
+                reviewed your recipe
+                <a class="link" href="{% url 'recipe_detail' rev.recipe.id %}">{{ rev.recipe.title }}</a>
+              </div>
+              <div class="stars" data-stars="{{ rev.rating }}"></div>
+            </div>
+            {% if rev.comment %}
+              <div class="review-card__text">{{ rev.comment }}</div>
+            {% else %}
+              <div class="muted">(No comment)</div>
+            {% endif %}
+            <div class="muted">{{ rev.created_at|date:"Y-m-d H:i" }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="empty__title">No notifications</div>
+        <div class="muted">When someone reviews your recipes, they will appear here.</div>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

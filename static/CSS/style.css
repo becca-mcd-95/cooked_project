@@ -1,0 +1,703 @@
+/* Becca CSS Style file */
+:root {
+    --green-darkest:  #0f1a0f;
+    --green-dark:     #1b3320;
+    --green-mid:      #2e5939;
+    --green-accent:   #9be7a1;
+    --green-text:     #e8f5e9;
+    --green-muted:    #a8c8aa;
+    --gold:           #f5c518;
+    --overlay-bg:     rgba(15, 26, 15, 0.85);
+    --card-radius:    6px;
+    --transition:     0.2s ease;
+}
+
+body {
+    background: linear-gradient(
+        180deg,
+        #294e31 0%,
+        #253f25 55%,
+        #0f1a0f 100%
+    );
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--green-text);
+}
+/* navbar */
+.navbar {
+    background-color: var(--green-darkest) !important;
+    border-bottom: 1px solid var(--green-mid);
+}
+.navbar-brand, .nav-link, .btn-outline-light {
+    color: var(--green-text);
+}
+.nav-link:hover {
+    color: var(--green-accent);
+}
+.btn-outline-light:hover {
+    color: var(--green-darkest);
+    background-color: var(--green-accent);
+    border-color: var(--green-accent);
+}
+.btn-warning {
+    background-color: var(--green-accent);
+    border: none;
+    color: var(--green-darkest);
+    font-weight: 600;
+}
+.form-control {
+    background-color: var(--green-mid);
+    color: var(--green-text);
+    border: none;
+}
+.form-control::placeholder {
+    color: #cfe8d2;
+}
+
+.homepage-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+.main-content {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    border-radius: 10px;
+}
+
+/* hero section  */
+.hero-section {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background-color: rgba(15, 26, 15, 0.7);
+    border: 1px solid var(--green-mid);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+.hero-label {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-accent);
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+.hero-title em {
+    font-style: italic;
+    color: var(--green-accent);
+}
+.hero-sub {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1rem;
+    color: var(--green-muted);
+    line-height: 1.6;
+}
+
+.section {
+    margin-top: 3.5rem;
+}
+.section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--green-mid);
+    padding-bottom: 0.5rem;
+}
+.section-heading {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green-text);
+    margin: 0;
+}
+.section-more {
+    font-size: 0.78rem;
+    color: var(--green-accent);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+.section-more:hover {
+    color: #fff;
+}
+
+/* recipe posters */
+.poster-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    /* hide scrollbar but keep scroll */
+    scrollbar-width: thin;
+    scrollbar-color: var(--green-mid) transparent;
+}
+.poster-list::-webkit-scrollbar {
+    height: 4px;
+}
+.poster-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.poster-list::-webkit-scrollbar-thumb {
+    background: var(--green-mid);
+    border-radius: 2px;
+}
+
+.posteritem {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.poster-shelf {
+    background-color: rgba(46, 89, 57, 0.35);
+    border: 1px solid var(--green-mid);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+}
+
+/* The poster card */
+.recipe-picture {
+    width: 112px;
+    height: 168px;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    position: relative;
+    display: block;
+    background-color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    transition: border-color var(--transition), transform var(--transition);
+}
+.recipe-picture:hover {
+    border-color: var(--green-accent);
+    transform: translateY(-3px);
+}
+.recipe-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Hover overlay */
+.overlay-actions {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0;
+    visibility: hidden;
+    background: var(--overlay-bg);
+    transition: opacity var(--transition), visibility var(--transition);
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--green-text);
+}
+.recipe-picture:hover .overlay-actions {
+    opacity: 1;
+    visibility: visible;
+}
+.overlay-actions .icon {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: brightness(0) invert(1);
+}
+
+/* Poster title below card */
+.poster-title {
+    width: 145px;
+    font-size: 0.7rem;
+    color: var(--green-muted);
+    line-height: 1.3;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* hot reviews grid */
+.review-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.review-card {
+    display: flex;
+    gap: 0.85rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--green-mid);
+}
+/* Left column cards get a right divider */
+.review-card:nth-child(odd) {
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--green-mid);
+}
+.review-card:nth-child(even) {
+    padding-left: 1.5rem;
+}
+
+.review-card-thumb {
+    flex: 0 0 54px;
+}
+.review-card-thumb img {
+    width: 54px;
+    height: 81px;
+    object-fit: cover;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--green-mid);
+    display: block;
+    transition: border-color var(--transition);
+}
+.review-card-thumb:hover img {
+    border-color: var(--green-accent);
+}
+
+.review-card-body {
+    flex: 1;
+    min-width: 0;
+}
+.review-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    margin-bottom: 0.15rem;
+}
+.review-card-author {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--green-muted);
+}
+.review-card-rating {
+    display: flex;
+    gap: 1px;
+}
+.chef-icon-sm {
+    font-size: 0.7rem;
+    color: var(--gold);
+}
+
+.review-card-title {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-text);
+    text-decoration: none;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+}
+.review-card-title:hover {
+    color: var(--green-accent);
+}
+.review-card-text {
+    font-size: 0.82rem;
+    color: var(--green-muted);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    /* clamp to 3 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.review-card-meta {
+    font-size: 0.75rem;
+    color: var(--green-muted);
+}
+.review-likes {
+    color: #e05a5a;
+}
+.review-likes i {
+    margin-right: 2px;
+}
+
+
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 700px;
+}
+.review-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--green-accent);
+}
+.review-thumb img {
+    width: 54px;
+    height: 81px;
+    object-fit: cover;
+    border-radius: var(--card-radius);
+}
+.review-content { flex: 1; }
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.review-title {
+    font-weight: 600;
+    color: var(--green-text);
+    text-decoration: none;
+}
+.review-text {
+    margin: 0.5rem 0;
+    color: var(--green-text);
+    font-size: 0.9rem;
+}
+.review-meta {
+    font-size: 0.85rem;
+    color: var(--green-muted);
+    display: flex;
+    gap: 1rem;
+}
+.chef-icon {
+    font-size: 1rem;
+    color: var(--gold);
+}
+
+.card {
+    background-color: var(--green-dark);
+    border: 1px solid var(--green-mid);
+    color: var(--green-text);
+    transition: transform var(--transition);
+}
+.card:hover {
+    border-color: var(--green-accent);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 640px) {
+    .review-grid {
+        grid-template-columns: 1fr;
+    }
+    .review-card:nth-child(odd) {
+        padding-right: 0;
+        border-right: none;
+    }
+    .review-card:nth-child(even) {
+        padding-left: 0;
+    }
+    .hero-title {
+        font-size: 1.8rem;
+    }
+}
+/* user profile page additions - header section */
+.profile-header{
+    background-color: rgba(12, 51, 32, 0.7);
+    border: 1px solid var(--green-mid);
+    border-radius: 8px;
+    overflow: visible;
+    margin-bottom: 1.5rem;
+}
+.profile-banner{
+    width: 100%;
+    height: 180px;
+    min-height: 180px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    background-color: var(--green-dark);
+}
+.profile-banner-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.profile-banner-placeholder{
+    width: 100%;
+    height: 100%;
+    background-color: linear-gradient(135deg, var(--green-mid)0%, var(var(--green-dark)100%));
+}
+/* profile photo */
+.profile-avatar-wrap {
+    margin-top: -50px;
+}
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--green-accent);
+    background-color: var(--green-dark);
+    display: block;
+}
+.profile-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--green-muted);
+}
+.profile-username {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--green-text);
+    background-color: rgba(46, 89, 57, 0.5);
+    padding: 0.2rem 0.7rem;
+    border-radius: 4px;
+    border: 1px solid var(--green-mid);
+}
+.profile-bio {
+    font-size: 0.85rem;
+    color: var(--green-muted);
+    max-width: 480px;
+    line-height: 1.5;
+}
+.profile-bio--empty {
+    font-style: italic;
+    opacity: 0.5;
+}
+/* first third of profile - stat boxes */
+.stats-box {
+    border: 1px dashed var(--green-mid);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    background-color: rgba(27, 51, 32, 0.3);
+}
+.stats-box-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green-muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--green-mid);
+}
+.stats-big-number {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--green-text);
+    line-height: 1;
+}
+.stats-line {
+    font-size: 1rem;
+    color: var(--green-text);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.stats-line strong {
+    font-size: 1.2rem;
+    color: var(--green-accent);
+}
+.stats-line i { color: var(--green-accent); }
+ 
+.stats-review-line {
+    font-size: 0.8rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid rgba(46, 89, 57, 0.4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.stats-review-link {
+    color: var(--green-muted);
+    text-decoration: none;
+}
+.stats-review-link:hover { color: var(--green-accent); }
+ 
+.stats-empty {
+    font-size: 0.8rem;
+    color: var(--green-muted);
+    font-style: italic;
+}
+.profile-stats-card {
+    flex: 0 0 auto;
+    background-color: rgba(15, 26, 15, 0.5);
+    border: 1px solid var(--green-mid);
+    border-radius: 6px;
+    padding: 0.85rem 1.2rem;
+}
+.profile-stats-divider {
+    width: 1px;
+    background-color: var(--green-mid);
+    align-self: stretch;
+}
+.chef-hat-icon {
+    font-size: 1.2rem;
+    color: var(--gold);
+}
+.chef-hat-icon--empty {
+    color: var(--green-mid);
+}
+.stats-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--green-text);
+}
+/* login/sign up css */
+.auth-page{
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6rem 1rem;
+}
+.auth-card {
+    background-color: #f0f4f0;
+    border-radius: 12px;
+    padding: 3rem 3rem;
+    width: 100%;
+    max-width: 560px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+.auth-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--green-darkest);
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+.auth-subtitle {
+    font-size: 0.88rem;
+    color: #4a6650;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.auth-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--green-darkest);
+    margin-bottom: 0.3rem;
+    display: block;
+}
+/* using this to override usual form boxes as trying out some higher contrast for these pages */
+.auth-input {
+    background-color: #ffffff !important;
+    color: var(--green-darkest) !important;
+    border: 1px solid #b0c8b4 !important;
+    border-radius: 6px;
+}
+.auth-input:focus {
+    border-color: var(--green-mid) !important;
+    box-shadow: 0 0 0 3px rgba(46, 89, 57, 0.15) !important;
+}
+.auth-input::placeholder {
+    color: #8faa92 !important;
+}
+.auth-input-btn {
+    background-color: #ffffff;
+    border: 1px solid #b0c8b4;
+    border-left: none;
+    color: #4a6650;
+    border-radius: 0 6px 6px 0;
+}
+.auth-input-btn:hover {
+    background-color: #e8f0e8;
+    color: var(--green-darkest);
+}
+.auth-check {
+    border-color: #b0c8b4;
+}
+.auth-check:checked {
+    background-color: var(--green-mid);
+    border-color: var(--green-mid);
+}
+.auth-check-label {
+    font-size: 0.85rem;
+    color: var(--green-darkest);
+    white-space: nowrap;
+}
+.auth-link-small {
+    font-size: 0.82rem;
+    color: var(--green-mid);
+    text-decoration: none;
+}
+.auth-link-small:hover {
+    color: var(--green-darkest);
+    text-decoration: underline;
+}
+.auth-link {
+    color: var(--green-mid);
+    font-weight: 600;
+    text-decoration: none;
+}
+.auth-link:hover {
+    color: var(--green-darkest);
+    text-decoration: underline;
+}
+.auth-divider {
+    border-color: #b0c8b4;
+    margin: 1.5rem 0;
+}
+.auth-switch-text {
+    text-align: center;
+    font-size: 0.88rem;
+    color: #4a6650;
+    margin: 0;
+    margin-top: 1rem;
+}
+/* submit button */
+.auth-submit-btn {
+    background-color: var(--green-darkest);
+    color: var(--green-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 6px;
+    padding: 0.65rem;
+    transition: background-color 0.2s;
+}
+.auth-submit-btn:hover {
+    background-color: var(--green-mid);
+    color: #ffffff;
+}
+/* error */
+.auth-alert {
+    background-color: #fde8e8;
+    border: 1px solid #f0b0b0;
+    color: #8b2020;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+}
+/* text in place of logo - need to figure out how to import google fonts... */
+.auth-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.auth-logo-link {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--green-darkest);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border: none;
+    padding: 0;
+}
+.auth-logo-link:hover {
+    color: var(--green-mid);
+    background-color: transparent;
+}

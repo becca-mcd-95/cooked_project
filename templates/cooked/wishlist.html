@@ -1,0 +1,40 @@
+<!-- Tuoyu template -->
+{% extends 'cooked/base.html' %}
+{% load static %}
+{% block title %}Wishlist - RecipeBoxd{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">My wishlist</h2>
+      <a class="link" href="{% url 'ingredient_search' %}">Find recipes</a>
+    </div>
+
+    {% if recipes %}
+      <div class="grid grid--cards">
+        {% for r in recipes %}
+          <a class="card recipe-card" href="{% url 'recipe_detail' r.id %}">
+            {% if r.photo_path %}
+              <div class="recipe-card__thumb"><img alt="{{ r.title }}" src="{% static r.photo_path %}" loading="lazy" /></div>
+            {% else %}
+              <div class="recipe-card__thumb recipe-card__thumb--empty"><div class="muted">No photo</div></div>
+            {% endif %}
+            <div class="recipe-card__meta">
+              <div class="stars" data-stars="{{ r.avg_rating }}"></div>
+              {% if r.cooking_time_minutes %}<div class="pill">{{ r.cooking_time_minutes }} min</div>{% endif %}
+            </div>
+            <div class="recipe-card__title">{{ r.title }}</div>
+            {% if r.origin_country %}
+              <div class="muted">Origin: {{ r.origin_country.name }}</div>
+            {% endif %}
+            <div class="chips">{% for ing in r.ingredients.all|slice:":6" %}<span class="chip">{{ ing.name }}</span>{% endfor %}</div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="empty__title">Your wishlist is empty</div>
+        <div class="muted">Open a recipe and click "Add to wishlist".</div>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

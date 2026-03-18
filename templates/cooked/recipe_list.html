@@ -1,0 +1,87 @@
+<!-- Yanyan Template -->
+{% extends 'cooked/base.html' %}
+{% load static %}
+{% block title %}Recipes - RecipeBoxd{% endblock %}
+{% block content %}
+  <section class="hero">
+    <div class="hero__content">
+      <h1 class="hero__title">Recipes & reviews, like a cooking Letterboxd.</h1>
+      <p class="hero__subtitle">Create recipes, rate & review, search by ingredients, and follow cooks.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="{% url 'ingredient_search' %}">Find by ingredients</a>
+        {% if user.is_authenticated %}
+          <a class="btn btn--ghost" href="{% url 'recipe_create' %}">Create a recipe</a>
+        {% else %}
+          <a class="btn btn--ghost" href="{% url 'login' %}">Sign in</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Latest recipes</h2>
+    </div>
+
+    {% if recipes %}
+      <div class="grid grid--cards">
+        {% for r in recipes %}
+          <article class="card recipe-card">
+            {% if r.photo_path %}
+              <a class="recipe-card__thumb" href="{% url 'recipe_detail' r.id %}">
+                <img alt="{{ r.title }}" src="{% static r.photo_path %}" loading="lazy" />
+              </a>
+            {% else %}
+              <div class="recipe-card__thumb recipe-card__thumb--empty">
+                <div class="muted">No photo</div>
+              </div>
+            {% endif %}
+            <div class="recipe-card__meta">
+              <div class="stars" data-stars="{{ r.avg_rating }}"></div>
+              {% if r.cooking_time_minutes %}
+                <div class="pill">{{ r.cooking_time_minutes }} min</div>
+              {% endif %}
+            </div>
+            <a class="recipe-card__title" href="{% url 'recipe_detail' r.id %}">{{ r.title }}</a>
+            {% if r.origin_country %}
+              <div class="muted">Origin: {{ r.origin_country.name }}</div>
+            {% endif %}
+            <div class="chips">
+              {% for ing in r.ingredients.all|slice:":6" %}
+                <span class="chip">{{ ing.name }}</span>
+              {% endfor %}
+              {% if r.ingredients.count > 6 %}
+                <span class="chip chip--muted">+{{ r.ingredients.count|add:"-6" }}</span>
+              {% endif %}
+            </div>
+            <div class="recipe-card__footer">
+              <div class="muted">{{ r.created_at|date:"Y-m-d" }}</div>
+              <a class="link" href="{% url 'profile' r.author.username %}">@{{ r.author.username }}</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if is_paginated %}
+        <nav class="pagination">
+          {% if page_obj.has_previous %}
+            <a class="btn btn--ghost" href="?{% if request.GET.q %}q={{ request.GET.q|urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}">Prev</a>
+          {% else %}
+            <span class="btn btn--ghost btn--disabled">Prev</span>
+          {% endif %}
+          <span class="muted">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+          {% if page_obj.has_next %}
+            <a class="btn btn--ghost" href="?{% if request.GET.q %}q={{ request.GET.q|urlencode }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+          {% else %}
+            <span class="btn btn--ghost btn--disabled">Next</span>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% else %}
+      <div class="empty">
+        <div class="empty__title">No recipes yet</div>
+        <div class="muted">Run `python manage.py seed_demo` or create your first recipe.</div>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
