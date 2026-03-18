@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db.models import Avg
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-# Member 1 models (Becca)
+# Becca models
 # this class was written with help as a placeholder 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
