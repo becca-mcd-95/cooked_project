@@ -31,13 +31,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7c$izp)pqat#*w46mbb#bmio*2mgk8851d&$a0(ixv@-vxy487'
+SECRET_KEY = os.environ.get('SECRET_KEY', '7c$izp)pqat#*w46mbb#bmio*2mgk8851d&$a0(ixv@-vxy487')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ["cooked-pzub.onrender.com"]
-
+CSRF_TRUSTED_ORIGINS = ['https://cooked-pzub.onrender.com']
 
 # Application definition
 
