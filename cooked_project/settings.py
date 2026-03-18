@@ -35,7 +35,7 @@ SECRET_KEY = '7c$izp)pqat#*w46mbb#bmio*2mgk8851d&$a0(ixv@-vxy487'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["cooked.onrender.com"]
+ALLOWED_HOSTS = ["cooked-pzub.onrender.com"]
 
 
 # Application definition
