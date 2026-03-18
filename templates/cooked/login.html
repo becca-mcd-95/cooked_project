@@ -6,7 +6,6 @@
 <div class="auth-page">
     <div class="auth-card">
         <div class="auth-logo">
-            <!-- this is going to need edited -->
             <a href="{% url 'cooked:home' %}" class="auth-logo-link">We're Cooked</a>
         </div>
         <h1 class="auth-title">Log in</h1>
@@ -26,7 +25,7 @@
             </div>
             <div class="mb-3 position-relative">
                 <label for="{{ form.password.id_for_label }}" class="auth-label">
-                    Password
+                    Password:
                 </label>
                 <div class="input-group">
                     <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}"
@@ -75,8 +74,6 @@
         }
     }
 </script>
-
-</div>
 <!-- form end -->
 {% endblock%}
 <!-- in this page we will have navbar, and simple page aligning with wireframe, box in middle of page with login form -->
