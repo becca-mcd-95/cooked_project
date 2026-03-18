@@ -3,13 +3,88 @@
 {% load staticfiles %}
 
 {% block content %}
-<form method='post' enctype="'multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
-</form>
+<div class="auth-page">
+    <div class="auth-card" style="max-width: 560px;">
+        <h1 class="auth-title mb-4">Edit Profile</h1>
+        <form method='post' enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <!-- photo uploads -->
+            <div class="edit-photo-section mb-4">
+                <div class="edit-banner-wrap">
+                    {% if profile.header_photo %}
+                    <img src="{{ profile.header_photo.url }}" alt="Banner" class="edit-banner-preview"
+                        id="bannerPreview">
+                    {% else %}
+                    <div class="edit-banner-preview edit-banner-empty" id="bannerPreview"></div>
+                    {% endif %}
+                    <label for="{{ form.header_photo.id_for_label}}" class="edit-photo-btn edit-banner-btn">
+                        <i class="bi bi-camera"></i>
+                    </label>
+                    <input type="file" name="{{ form.header_photo.html_name }}"
+                        id="{{ form.header_photo.id_for_label }}" class="edit-file-input" accept="image/*"
+                        onchange="previewImage(this, 'bannerPreview')">
+                </div>
+                <div class="edit-avatar-wrap">
+                    {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="Photo" class="edit-avatar-preview"
+                        id="avatarPreview">
+                    {% else %}
+                    <div class="edit-avatar-preview edit-avatar-empty" id="avatarPreview">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    {% endif %}
+                    <label for=" {{ form.profile_picture.id_for_label }}" class="edit-photo-btn edit-avatar-btn">
+                        <i class="bi bi-camera"></i>
+                    </label>
+                    <input type="file" name="{{ form.profile_picture.html_name }}"
+                        id="{{ form.profile_picture.id_for_label }}" class="edit-file-input" accept="image/*"
+                        onchange="previewImage(this, 'avatarPreview')">
+                </div>
+            </div>
+            <!-- biography section -->
+            <div class="mb-3">
+                <label for="{{ form.bio.id_for_label }}" class="auth-label">Bio</label>
+                <textarea name="{{ form.bio.html_name }}" id="{{ form.bio.id_for_label }}"
+                    class="form-control auth-input" rows="4"
+                    placeholder="Tell us about yourself...">{{ form.bio.value|default:'' }}</textarea>
+                {% if form.bio.errors %}
+                <div class="text-danger small mt-1">{{ form.bio.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+    </div>
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn auth-submit-btn flex-grow-1">
+            Save changes
+        </button>
+        <a href="{% url 'cooked:user_profile' %}" class="btn btn-outline-secondary flex-grow-1 auth-cancel-btn">
+            Cancel
+        </a>
+    </div>
+    </form>
+</div>
+<script>
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (preview.tagName === 'IMG') {
+                    preview.src = e.target.result;
+                } else {
+                    // replace placeholder div with an img
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.id = previewId;
+                    if (previewId === 'bannerPreview') {
+                        img.className = 'edit-banner-preview';
+                    } else {
+                        img.className = 'edit-avatar-preview';
+                    }
+                    preview.parentNode.replaceChild(img, preview);
+                }
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 {% endblock%}
-<!-- will keep this page simple for time and do similar to login with small edit box
- for two photo blocks
- name (username and actual name)
- biography  -->
