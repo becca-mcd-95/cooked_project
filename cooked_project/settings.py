@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = BASE_DIR / "templates"
 STATIC_DIR = BASE_DIR / "static"
 MEDIA_DIR = BASE_DIR / "media"
+STATIC_ROOT = BASE_DIR/ "staticfiles"
 
 
 
@@ -32,9 +33,9 @@ MEDIA_DIR = BASE_DIR / "media"
 SECRET_KEY = '7c$izp)pqat#*w46mbb#bmio*2mgk8851d&$a0(ixv@-vxy487'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["cooked.onrender.com"]
 
 
 # Application definition
@@ -95,7 +96,7 @@ def database_from_url(url: str):
     scheme = parts.scheme.lower()
     if scheme in {"mysql", "mysql+connector", "mysql+mysqlclient"}:
         query = parse_qs(parts.query or "")
-        name = parts.path.lstrip("/") or "recipeboxd_django"
+        name = parts.path.lstrip("/") or "cooked_django"
         options = {}
         charset = (query.get("charset") or ["utf8mb4"])[0]
         options["charset"] = charset
