@@ -17,6 +17,11 @@ class ProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['bio', 'profile_picture', 'header_photo']
 
+class UserForm(forms.ModelForm):
+    class Meta:
+        model=User
+        fields = ['first_name', 'username']
+
 # Yanyan and Tuoyu forms
 
 class RecipeForm(forms.ModelForm):

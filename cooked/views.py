@@ -14,7 +14,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.db.models import Count, F, Q
 
-from cooked.forms import SignUpForm, ProfileForm, RecipeForm, ReviewForm
+from cooked.forms import SignUpForm, ProfileForm, RecipeForm, ReviewForm, UserForm
 from cooked.models import Recipe, Review, Country, Follow, Ingredient, RecipeStatus
 # from static.uploads.recipes import delete_recipe_photo, save_recipe_photo
 
@@ -75,14 +75,17 @@ def user_profile(request):
 @login_required
 def edit_profile(request):
     profile = request.user.profile
-    if request.method == 'POST':  
+    if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
+        user_form = UserForm(request.POST, instance=request.user)
+        if form.is_valid() and user_form.is_valid():
             form.save()
+            user_form.save()
             return redirect('cooked:user_profile')
     else:
         form = ProfileForm(instance=profile)
-    return render(request, 'cooked/edit_profile.html', {'form': form})
+        user_form = UserForm(instance=request.user)
+    return render(request, 'cooked/edit_profile.html', {'form': form, 'user_form': user_form,'profile': profile})
 
 def search_users(request):
     q = request.GET.get("q", "")
