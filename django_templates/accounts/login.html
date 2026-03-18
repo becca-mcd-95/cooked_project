@@ -1,20 +1,66 @@
 {% extends "base.html" %}
-{% block title %}Sign in - RecipeBoxd{% endblock %}
+{% block title %}Log in - RecipeBoxd{% endblock %}
 {% block content %}
   <div class="auth">
-    <div class="card auth-card">
-      <h1 class="auth-card__title">Sign in</h1>
-      <form method="post" class="form">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <label class="label">Username</label>
-        {{ form.username }}
-        <label class="label">Password</label>
-        {{ form.password }}
-        <button class="btn btn--primary btn--block" type="submit">Sign in</button>
-      </form>
-      <div class="auth-card__hint muted">
-        Use `python manage.py seed_demo` to create demo users.
+    <div class="auth-stack">
+      <div class="card auth-card">
+        <h1 class="auth-card__title">Log in</h1>
+        <form method="post" class="form">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <label class="label">Username</label>
+          <input
+            class="input"
+            type="text"
+            name="{{ form.username.html_name }}"
+            id="{{ form.username.id_for_label }}"
+            value="{{ form.username.value|default_if_none:'' }}"
+            placeholder="Username"
+            autocomplete="username"
+          />
+          {{ form.username.errors }}
+
+          <label class="label">Password</label>
+          <input
+            class="input"
+            type="password"
+            name="{{ form.password.html_name }}"
+            id="{{ form.password.id_for_label }}"
+            placeholder="Password"
+            autocomplete="current-password"
+          />
+          {{ form.password.errors }}
+
+          <div class="auth-row">
+            <label class="checkline">
+              <input type="checkbox" name="remember" />
+              <span>Remember me</span>
+            </label>
+            <a class="link muted" href="{% url 'password_reset' %}">Forgotten Password?</a>
+          </div>
+
+          <button class="btn btn--primary btn--block" type="submit">Log in</button>
+        </form>
+      </div>
+
+      <div class="card auth-card">
+        <h2 class="auth-card__subtitle">Sign Up</h2>
+        <div class="muted">Ready to start your culinary quest? <a class="link" href="{% url 'signup' %}">Create an account</a></div>
+        <div class="auth-oauth">
+          <a class="btn btn--ghost btn--block" href="{% url 'signup' %}">
+            <span class="oauth-icon" aria-hidden="true">E</span>
+            <span>Continue with email</span>
+          </a>
+          <button class="btn btn--ghost btn--block" type="button">
+            <span class="oauth-icon" aria-hidden="true">f</span>
+            <span>Continue with Facebook</span>
+          </button>
+          <button class="btn btn--ghost btn--block" type="button">
+            <span class="oauth-icon" aria-hidden="true">G</span>
+            <span>Continue with Google</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

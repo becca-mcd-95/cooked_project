@@ -8,8 +8,21 @@ from django.db.models import Avg
 
 class Recipe(models.Model):
     title = models.CharField(max_length=160, db_index=True)
+    description = models.TextField(blank=True, default="")
     instructions = models.TextField(blank=True)
+    prep_time_minutes = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
     cooking_time_minutes = models.PositiveIntegerField(default=0)
+    serving_size = models.CharField(max_length=60, blank=True, default="")
+    cuisine = models.CharField(max_length=60, blank=True, default="", db_index=True)
+    difficulty = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        default=None,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        db_index=True,
+        help_text="1-5 increasing difficulty (leave blank if unspecified).",
+    )
+    occasion = models.CharField(max_length=60, blank=True, default="", db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     photo_path = models.CharField(max_length=255, blank=True, default="")
     origin_country = models.ForeignKey(
@@ -42,6 +55,7 @@ class Review(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)],
     )
     comment = models.TextField(blank=True)
+    pinned = models.BooleanField(default=False, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

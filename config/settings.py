@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Allow Django apps to live under Member2/Member3 backend folders while keeping
 # their import paths as `recipes` and `social`.
-for backend_dir in (BASE_DIR / "Member2Backend", BASE_DIR / "Member3Backend"):
+for backend_dir in (BASE_DIR / "Member1Backend", BASE_DIR / "Member2Backend", BASE_DIR / "Member3Backend"):
     backend_dir_str = str(backend_dir)
     if backend_dir.exists() and backend_dir_str not in sys.path:
         sys.path.insert(0, backend_dir_str)
@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "accounts",
     "recipes",
     "social",
 ]
@@ -92,6 +93,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
+            str(BASE_DIR / "Member1Frontend"),
             str(BASE_DIR / "Member2Frontend"),
             str(BASE_DIR / "Member3Frontend"),
             str(BASE_DIR / "django_templates"),

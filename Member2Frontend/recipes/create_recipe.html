@@ -11,6 +11,9 @@
     <form class="card form" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.non_field_errors }}
+      {% if form.errors %}
+        <div class="flash flash--error">Some fields are invalid — please check the messages below.</div>
+      {% endif %}
 
       <label class="label">Photo (optional)</label>
       <input class="input" type="file" name="photo" accept="image/*" />
@@ -24,15 +27,43 @@
 
       <label class="label">Title</label>
       {{ form.title }}
+      {{ form.title.errors }}
 
       <label class="label">Country of origin (optional)</label>
       {{ form.origin_country }}
+      {{ form.origin_country.errors }}
+
+      <label class="label">Cuisine (optional)</label>
+      {{ form.cuisine }}
+      {{ form.cuisine.errors }}
+
+      <label class="label">Difficulty (1-5, optional)</label>
+      {{ form.difficulty }}
+      {{ form.difficulty.errors }}
+
+      <label class="label">Occasion (optional)</label>
+      {{ form.occasion }}
+      {{ form.occasion.errors }}
+
+      <label class="label">Description (optional)</label>
+      {{ form.description }}
+      {{ form.description.errors }}
+
+      <label class="label">Prep time (minutes, optional)</label>
+      {{ form.prep_time_minutes }}
+      {{ form.prep_time_minutes.errors }}
 
       <label class="label">Cooking time (minutes)</label>
       {{ form.cooking_time_minutes }}
+      {{ form.cooking_time_minutes.errors }}
+
+      <label class="label">Serving size (optional)</label>
+      {{ form.serving_size }}
+      {{ form.serving_size.errors }}
 
       <label class="label">Instructions</label>
       {{ form.instructions }}
+      {{ form.instructions.errors }}
 
       <label class="label">Ingredients</label>
       <div class="ingredient-picker">
@@ -45,6 +76,7 @@
           {% endfor %}
         </div>
       </div>
+      {{ form.ingredients.errors }}
 
       <button class="btn btn--primary" type="submit">{% if object %}Save changes{% else %}Create{% endif %}</button>
     </form>

@@ -1,0 +1,46 @@
+{% load static %}
+<div class="tile" data-recipe-id="{{ r.id }}">
+  <a class="tile__media" href="{% url 'recipe_detail' r.id %}" aria-label="{{ r.title }}">
+    {% if r.photo_path %}
+      <img alt="{{ r.title }}" src="{% static r.photo_path %}" loading="lazy" />
+    {% else %}
+      <div class="tile__placeholder" aria-hidden="true"></div>
+    {% endif %}
+  </a>
+
+  <div class="tile__meta" aria-label="Recipe stats">
+    <a class="iconmeta" href="{% url 'recipe_detail' r.id %}" title="Reviews">
+      ✎ <span class="iconmeta__count">{{ r.reviews_count|default:0 }}</span>
+    </a>
+
+    {% if user.is_authenticated %}
+      <button
+        class="iconbtn {% if r.id in my_wishlist_ids %}iconbtn--active{% endif %}"
+        type="button"
+        data-status-toggle
+        data-status="wishlist"
+        aria-pressed="{% if r.id in my_wishlist_ids %}true{% else %}false{% endif %}"
+        title="To-cook list"
+      >
+        ♡ <span class="iconmeta__count" data-status-count="wishlist">{{ r.wishlist_count|default:0 }}</span>
+      </button>
+      <button
+        class="iconbtn {% if r.id in my_cooked_ids %}iconbtn--active{% endif %}"
+        type="button"
+        data-status-toggle
+        data-status="cooked"
+        aria-pressed="{% if r.id in my_cooked_ids %}true{% else %}false{% endif %}"
+        title="Cooked"
+      >
+        ✓ <span class="iconmeta__count" data-status-count="cooked">{{ r.cooked_count|default:0 }}</span>
+      </button>
+    {% else %}
+      <a class="iconmeta" href="{% url 'login' %}?next={{ request.path|urlencode }}" title="Sign in to use wishlist">
+        ♡ <span class="iconmeta__count">{{ r.wishlist_count|default:0 }}</span>
+      </a>
+      <a class="iconmeta" href="{% url 'login' %}?next={{ request.path|urlencode }}" title="Sign in to mark cooked">
+        ✓ <span class="iconmeta__count">{{ r.cooked_count|default:0 }}</span>
+      </a>
+    {% endif %}
+  </div>
+</div>

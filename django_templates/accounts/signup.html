@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - RecipeBoxd{% endblock %}
+{% block content %}
+  <div class="auth">
+    <div class="auth-stack">
+      <div class="card auth-card">
+        <h1 class="auth-card__title">Sign Up</h1>
+        <div class="muted">Ready to start your culinary quest? Create an account.</div>
+
+        <form method="post" class="form" style="margin-top:10px">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <label class="label">Email address</label>
+          {{ form.email }}
+          {{ form.email.errors }}
+
+          <label class="label">Username</label>
+          {{ form.username }}
+          {{ form.username.errors }}
+
+          <label class="label">Password</label>
+          {{ form.password1 }}
+          {{ form.password1.errors }}
+
+          <label class="label">Confirm password</label>
+          {{ form.password2 }}
+          {{ form.password2.errors }}
+
+          <button class="btn btn--primary btn--block" type="submit">Create account</button>
+        </form>
+      </div>
+
+      <div class="card auth-card">
+        <div class="muted">Already have an account?</div>
+        <a class="btn btn--ghost btn--block" href="{% url 'login' %}">Back to Log in</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

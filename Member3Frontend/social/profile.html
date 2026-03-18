@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}@{{ profile_user.username }} - RecipeBoxd{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="profile-wire">
+      <div class="profile-wire__cover"
+        {% if profile.cover_path %}
+          style="background-image:url('{% static profile.cover_path %}')"
+        {% endif %}
+      >
+        <div class="profile-wire__coverShade"></div>
+
+        <div class="profile-wire__top">
+          <div class="profile-wire__avatar">
+            {% if profile.avatar_path %}
+              <img alt="@{{ profile_user.username }} avatar" src="{% static profile.avatar_path %}" />
+            {% else %}
+              <div class="profile-wire__avatarFallback">{{ profile_user.username|slice:":1"|upper }}</div>
+            {% endif %}
+          </div>
+
+          <div class="profile-wire__identity">
+            <div class="profile-wire__handle">
+              <span class="pill pill--big">@{{ profile_user.username }}</span>
+              {% if user.is_authenticated and user.username != profile_user.username %}
+                <button class="btn btn--ghost btn--sm" type="button" data-follow-toggle data-username="{{ profile_user.username }}">+</button>
+              {% endif %}
+            </div>
+            <div class="profile-wire__bio muted">
+              {% if profile.display_name %}{{ profile.display_name }} · {% endif %}
+              {% if profile.bio %}{{ profile.bio }}{% else %}No bio yet.{% endif %}
+            </div>
+          </div>
+
+          <div class="profile-wire__panel">
+            <div class="muted" style="font-weight:900; margin-bottom:10px">Chef level:</div>
+            <div class="chef-level" aria-label="Chef level">
+              {% for on in chef_slots %}
+                <span class="chef-hat {% if on %}chef-hat--on{% endif %}" aria-hidden="true"></span>
+              {% endfor %}
+            </div>
+            <div class="profile-wire__followCounts">
+              <div><span class="muted">Following:</span> <span class="profile-wire__num">{{ following }}</span></div>
+              <div><span class="muted">Followers:</span> <span class="profile-wire__num">{{ followers }}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-wire__actions">
+          {% if user.is_authenticated and user.username == profile_user.username %}
+            <button class="btn btn--ghost btn--sm" type="button" data-dialog-open="editProfileModal">Edit Profile</button>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="profile-wire__cards">
+        <div class="dash-card">
+          <div class="dash-card__title">Recipes</div>
+          <div class="dash-card__rows">
+            <div>Cooked: <strong>{{ cooked_count }}</strong></div>
+            <div>To try: <strong>{{ to_try_count }}</strong></div>
+          </div>
+        </div>
+        <div class="dash-card dash-card--center">
+          <div class="dash-card__title">Reviews</div>
+          <div class="dash-card__big">{{ reviews_count }}</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card__title">Posts</div>
+          <div class="dash-card__posts">
+            {% for p in recent_posts %}
+              <div class="dash-card__post">
+                <span class="muted">@{{ profile_user.username }}</span>
+                <span class="dash-card__postText">{{ p.comment|truncatechars:46 }}</span>
+              </div>
+            {% empty %}
+              <div class="muted">No posts yet.</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Recipes</h2>
+    </div>
+    {% if recipes %}
+      <div class="grid grid--photos">
+        {% for r in recipes %}
+          <a class="photo photo--square" href="{% url 'recipe_detail' r.id %}">
+            {% if r.photo_path %}
+              <img alt="{{ r.title }}" src="{% static r.photo_path %}" loading="lazy" />
+            {% else %}
+              <div class="result-row__thumb result-row__thumb--empty" style="width:100%; height:100%"></div>
+            {% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="empty__title">No recipes yet</div>
+      </div>
+    {% endif %}
+  </section>
+
+  {% if user.is_authenticated and user.username == profile_user.username and edit_form %}
+    <dialog class="app-dialog" id="editProfileModal" {% if open_edit_modal %}data-open-on-load{% endif %}>
+      <div class="modal__header">
+        <h3 class="modal__title">Edit Profile</h3>
+        <button class="btn btn--ghost btn--sm" type="button" data-dialog-close>Close</button>
+      </div>
+      <div class="modal__body">
+        <form class="form" method="post" action="{% url 'profile_edit' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="edit-cover">
+            <div class="edit-cover__box">
+              <img
+                data-cover-preview
+                alt="Cover"
+                {% if profile.cover_path %}
+                  src="{% static profile.cover_path %}"
+                {% else %}
+                  style="display:none"
+                {% endif %}
+              />
+              <div class="edit-cover__placeholder" data-cover-placeholder {% if profile.cover_path %}style="display:none"{% endif %}></div>
+              <label class="edit-cover__btn btn btn--ghost btn--sm">
+                Cover
+                <input type="file" name="cover" accept="image/*" hidden />
+              </label>
+            </div>
+            <div class="edit-cover__avatar">
+              <img
+                data-avatar-preview
+                alt="Avatar"
+                {% if profile.avatar_path %}
+                  src="{% static profile.avatar_path %}"
+                {% else %}
+                  style="display:none"
+                {% endif %}
+              />
+              <div class="profile-wire__avatarFallback" data-avatar-fallback {% if profile.avatar_path %}style="display:none"{% endif %}>{{ profile_user.username|slice:":1"|upper }}</div>
+              <label class="edit-cover__avatarBtn btn btn--ghost btn--sm">
+                Avatar
+                <input type="file" name="avatar" accept="image/*" hidden />
+              </label>
+            </div>
+          </div>
+
+          {% if edit_form.non_field_errors %}
+            <div class="flash flash--error">{{ edit_form.non_field_errors }}</div>
+          {% endif %}
+
+          <label class="label">Name</label>
+          <input class="input" name="display_name" value="{{ edit_form.display_name.value|default:'' }}" />
+          {% if edit_form.display_name.errors %}<div class="muted">{{ edit_form.display_name.errors }}</div>{% endif %}
+
+          <label class="label">Username</label>
+          <input class="input" name="username" value="{{ edit_form.username.value|default:profile_user.username }}" required />
+          {% if edit_form.username.errors %}<div class="muted">{{ edit_form.username.errors }}</div>{% endif %}
+
+          <label class="label">Bio</label>
+          <textarea class="input input--textarea" name="bio" rows="5">{{ edit_form.bio.value|default:'' }}</textarea>
+          {% if edit_form.bio.errors %}<div class="muted">{{ edit_form.bio.errors }}</div>{% endif %}
+
+          {% if edit_form.avatar.errors %}<div class="muted">{{ edit_form.avatar.errors }}</div>{% endif %}
+          {% if edit_form.cover.errors %}<div class="muted">{{ edit_form.cover.errors }}</div>{% endif %}
+
+          <button class="btn btn--primary" type="submit">Save changes</button>
+        </form>
+      </div>
+    </dialog>
+  {% endif %}
+{% endblock %}

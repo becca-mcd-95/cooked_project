@@ -8,7 +8,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from social.models import Ingredient
+from social.models import Country, Ingredient, RecipeStatus
 
 from .models import Recipe, Review
 
@@ -48,6 +48,21 @@ class RecipeModuleTests(TestCase):
         abs_path = (Path(settings.BASE_DIR) / "static" / recipe.photo_path).resolve()
         self.assertTrue(abs_path.exists())
         abs_path.unlink(missing_ok=True)
+
+    def test_homepage_authenticated_does_not_error(self):
+        self.client.login(username="u1", password="pass12345")
+        uk = Country.objects.create(iso2="GB", name="United Kingdom")
+        recipe = Recipe.objects.create(
+            title="R",
+            author=self.user,
+            instructions="x",
+            cooking_time_minutes=1,
+            origin_country=uk,
+        )
+        RecipeStatus.objects.create(user=self.user, recipe=recipe, status=RecipeStatus.STATUS_WISHLIST)
+        resp = self.client.get(reverse("recipe_list"))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "Recipes")
 
     def test_review_upsert_validation(self):
         recipe = Recipe.objects.create(title="R", author=self.user, instructions="x", cooking_time_minutes=1)
