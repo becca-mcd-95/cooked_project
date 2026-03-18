@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login as auth_login
 from cooked.models import UserProfile, Recipe, Review, Country, Ingredient
+from django.shortcuts import redirect, render
 
 # Becca forms
 
@@ -11,6 +13,17 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)
+            return redirect('cooked:user_profile')
+        else:
+            form = AuthenticationForm()
+            return render(request, 'cooked/login.html', {'form': form})
 
 class ProfileForm(forms.ModelForm):
     class Meta:

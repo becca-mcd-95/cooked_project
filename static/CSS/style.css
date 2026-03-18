@@ -554,3 +554,150 @@ body {
     font-weight: 700;
     color: var(--green-text);
 }
+/* login/sign up css */
+.auth-page{
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6rem 1rem;
+}
+.auth-card {
+    background-color: #f0f4f0;
+    border-radius: 12px;
+    padding: 3rem 3rem;
+    width: 100%;
+    max-width: 560px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+.auth-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--green-darkest);
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+.auth-subtitle {
+    font-size: 0.88rem;
+    color: #4a6650;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.auth-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--green-darkest);
+    margin-bottom: 0.3rem;
+    display: block;
+}
+/* using this to override usual form boxes as trying out some higher contrast for these pages */
+.auth-input {
+    background-color: #ffffff !important;
+    color: var(--green-darkest) !important;
+    border: 1px solid #b0c8b4 !important;
+    border-radius: 6px;
+}
+.auth-input:focus {
+    border-color: var(--green-mid) !important;
+    box-shadow: 0 0 0 3px rgba(46, 89, 57, 0.15) !important;
+}
+.auth-input::placeholder {
+    color: #8faa92 !important;
+}
+.auth-input-btn {
+    background-color: #ffffff;
+    border: 1px solid #b0c8b4;
+    border-left: none;
+    color: #4a6650;
+    border-radius: 0 6px 6px 0;
+}
+.auth-input-btn:hover {
+    background-color: #e8f0e8;
+    color: var(--green-darkest);
+}
+.auth-check {
+    border-color: #b0c8b4;
+}
+.auth-check:checked {
+    background-color: var(--green-mid);
+    border-color: var(--green-mid);
+}
+.auth-check-label {
+    font-size: 0.85rem;
+    color: var(--green-darkest);
+    white-space: nowrap;
+}
+.auth-link-small {
+    font-size: 0.82rem;
+    color: var(--green-mid);
+    text-decoration: none;
+}
+.auth-link-small:hover {
+    color: var(--green-darkest);
+    text-decoration: underline;
+}
+.auth-link {
+    color: var(--green-mid);
+    font-weight: 600;
+    text-decoration: none;
+}
+.auth-link:hover {
+    color: var(--green-darkest);
+    text-decoration: underline;
+}
+.auth-divider {
+    border-color: #b0c8b4;
+    margin: 1.5rem 0;
+}
+.auth-switch-text {
+    text-align: center;
+    font-size: 0.88rem;
+    color: #4a6650;
+    margin: 0;
+    margin-top: 1rem;
+}
+/* submit button */
+.auth-submit-btn {
+    background-color: var(--green-darkest);
+    color: var(--green-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 6px;
+    padding: 0.65rem;
+    transition: background-color 0.2s;
+}
+.auth-submit-btn:hover {
+    background-color: var(--green-mid);
+    color: #ffffff;
+}
+/* error */
+.auth-alert {
+    background-color: #fde8e8;
+    border: 1px solid #f0b0b0;
+    color: #8b2020;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+}
+/* text in place of logo - need to figure out how to import google fonts... */
+.auth-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.auth-logo-link {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--green-darkest);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border: none;
+    padding: 0;
+}
+.auth-logo-link:hover {
+    color: var(--green-mid);
+    background-color: transparent;
+}
