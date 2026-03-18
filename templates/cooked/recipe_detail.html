@@ -1,92 +1,201 @@
 <!-- Yanyan Template -->
 {% extends 'cooked/base.html' %}
 {% load static %}
-{% block title %}{{ recipe.title }} - RecipeBoxd{% endblock %}
+{% block title %}{{ recipe.title }} - We're Cooked{% endblock %}
 {% block content %}
   <section class="section">
-    <div class="card recipe-detail" data-recipe-id="{{ recipe.id }}">
-      {% if recipe.photo_path %}
-        <div class="recipe-detail__media">
-          <img alt="{{ recipe.title }}" src="{% static recipe.photo_path %}" loading="lazy" />
-        </div>
-      {% endif %}
-      <div class="recipe-detail__top">
-        <div>
-          <h1 class="recipe-detail__title">{{ recipe.title }}</h1>
-          <div class="muted">
-            By <a class="link" href="{% url 'profile' recipe.author.username %}">@{{ recipe.author.username }}</a>
-            | {{ recipe.created_at|date:"Y-m-d" }}
-            {% if recipe.cooking_time_minutes %} | {{ recipe.cooking_time_minutes }} min{% endif %}
-            {% if recipe.origin_country %} | Origin: {{ recipe.origin_country.name }}{% endif %}
+    <div class="recipe-wire" data-recipe-id="{{ recipe.id }}">
+      <div class="recipe-wire__grid">
+        <div class="recipe-wire__main">
+          <div class="recipe-wire__titleRow">
+            <div>
+              <h1 class="recipe-wire__title">{{ recipe.title }}</h1>
+              <div class="hatrow" id="avgHats" data-hats="{{ recipe.avg_rating }}">
+                {% for on in avg_level_slots %}
+                  <span class="chef-hat {% if on %}chef-hat--on{% endif %}" aria-hidden="true"></span>
+                {% endfor %}
+              </div>
+              <div class="muted" style="margin-top:6px">
+                <span class="stars" id="avgStars" data-stars="{{ recipe.avg_rating }}" style="display:none"></span>
+                <span><span id="reviewCount">{{ recipe.reviews.count }}</span> reviews</span>
+              </div>
+            </div>
+
+            <div class="recipe-wire__author">
+              <div class="recipe-wire__authorIcon" aria-hidden="true">⧗</div>
+              <a class="link" href="{% url 'cooked:user_profile' recipe.author.username %}">@{{ recipe.author.username }}</a>
+            </div>
+          </div>
+
+          <div class="recipe-wire__media">
+            {% if recipe.photo_path %}
+              <img alt="{{ recipe.title }}" src="{% static recipe.photo_path %}" loading="lazy" />
+            {% else %}
+              <div class="tile__placeholder" aria-hidden="true"></div>
+            {% endif %}
+          </div>
+
+          <div class="recipe-wire__desc">
+            <div class="muted" style="font-weight:900; margin-bottom:8px">Description of recipe…</div>
+            {% if recipe.description %}
+              <div class="prose">{{ recipe.description|linebreaksbr }}</div>
+            {% else %}
+              <div class="muted">No description yet.</div>
+            {% endif %}
+          </div>
+
+          <div class="recipe-wire__lower">
+            <div class="recipe-wire__info">
+              <div class="recipe-wire__subhead">Recipe info</div>
+              <div class="info-row"><span class="muted">Prep time:</span> <strong>{% if recipe.prep_time_minutes %}{{ recipe.prep_time_minutes }} min{% else %}-{% endif %}</strong></div>
+              <div class="info-row"><span class="muted">Cook time:</span> <strong>{% if recipe.cooking_time_minutes %}{{ recipe.cooking_time_minutes }} min{% else %}-{% endif %}</strong></div>
+              <div class="info-row"><span class="muted">Serving size:</span> <strong>{% if recipe.serving_size %}{{ recipe.serving_size }}{% else %}-{% endif %}</strong></div>
+              {% if recipe.origin_country %}
+                <div class="info-row"><span class="muted">Country:</span> <strong>{{ recipe.origin_country.name }}</strong></div>
+              {% endif %}
+              {% if recipe.cuisine %}
+                <div class="info-row"><span class="muted">Cuisine:</span> <strong>{{ recipe.cuisine }}</strong></div>
+              {% endif %}
+              {% if recipe.difficulty %}
+                <div class="info-row"><span class="muted">Difficulty:</span> <strong>{{ recipe.difficulty }} / 5</strong></div>
+              {% endif %}
+              {% if recipe.occasion %}
+                <div class="info-row"><span class="muted">Occasion:</span> <strong>{{ recipe.occasion }}</strong></div>
+              {% endif %}
+            </div>
+
+            <div class="recipe-wire__ingredients">
+              <div class="recipe-wire__subhead">Ingredients</div>
+              <div class="lined-list" aria-label="Ingredients list">
+                {% for ing in recipe.ingredients.all %}
+                  <div class="lined-list__item">{{ ing.name }}</div>
+                {% empty %}
+                  <div class="muted">No ingredients set</div>
+                {% endfor %}
+              </div>
+
+              <div class="recipe-wire__subhead" style="margin-top:16px">Method</div>
+              <div class="prose">
+                {% if recipe.instructions %}
+                  {{ recipe.instructions|linebreaksbr }}
+                {% else %}
+                  <span class="muted">No method yet.</span>
+                {% endif %}
+              </div>
+            </div>
           </div>
         </div>
-        <div class="recipe-detail__rating">
-          <div class="stars" id="avgStars" data-stars="{{ recipe.avg_rating }}"></div>
-          <div class="muted"><span id="reviewCount">{{ recipe.reviews.count }}</span> reviews</div>
-        </div>
-      </div>
 
-      <div class="chips chips--big">
-        {% for ing in recipe.ingredients.all %}
-          <span class="chip">{{ ing.name }}</span>
-        {% empty %}
-          <span class="chip chip--muted">No ingredients set</span>
-        {% endfor %}
-      </div>
+        <aside class="recipe-wire__side">
+          <div class="recipe-wire__actions">
+            {% if user.is_authenticated %}
+              <button class="btn btn--ghost btn--block" data-status-toggle data-status="wishlist" type="button">
+                + {% if wishlist_active %}Remove from To‑Cook list{% else %}Add to To‑Cook list{% endif %} ♡
+              </button>
+              <button class="btn btn--ghost btn--block" data-status-toggle data-status="cooked" type="button">
+                + {% if cooked_active %}Cooked (undo){% else %}Mark as Cooked{% endif %} ✓
+              </button>
+              <button class="btn btn--ghost btn--block" type="button" data-dialog-open="reviewModal">+ Add a review ✎</button>
+              {% if recipe.author_id == user.id %}
+                <a class="btn btn--ghost btn--block" href="{% url 'cooked:recipe_edit' recipe.id %}">Edit</a>
+                <a class="btn btn--danger btn--block" href="{% url 'cooked:recipe_delete' recipe.id %}">Delete</a>
+              {% endif %}
+            {% else %}
+              <a class="btn btn--primary btn--block" href="{% url 'cooked:login' %}?next={{ request.path|urlencode }}">Sign in to review</a>
+            {% endif %}
+          </div>
 
-      <div class="recipe-detail__actions">
-        {% if user.is_authenticated %}
-          <button class="btn {% if wishlist_active %}btn--ghost{% else %}btn--primary{% endif %}" data-status-toggle data-status="wishlist" type="button">
-            {% if wishlist_active %}In wishlist (remove){% else %}Add to wishlist{% endif %}
-          </button>
-          <button class="btn btn--ghost" data-status-toggle data-status="cooked" type="button">
-            {% if cooked_active %}Cooked (undo){% else %}Mark as cooked{% endif %}
-          </button>
-          {% if recipe.author_id == user.id %}
-            <a class="btn btn--ghost" href="{% url 'recipe_edit' recipe.id %}">Edit</a>
-            <a class="btn btn--danger" href="{% url 'recipe_delete' recipe.id %}">Delete</a>
-          {% endif %}
-        {% else %}
-          <a class="btn btn--primary" href="{% url 'login' %}?next={{ request.path|urlencode }}">Sign in to review</a>
-        {% endif %}
-      </div>
+          <div class="recipe-wire__tags">
+            <div class="recipe-wire__subhead">Tags</div>
+            <div class="taggrid">
+              {% for ing in recipe.ingredients.all|slice:":10" %}
+                <span class="tag">{{ ing.name }}</span>
+              {% empty %}
+                <span class="muted">No tags</span>
+              {% endfor %}
+            </div>
+          </div>
 
-      <hr class="sep" />
-      <h3 class="h3">Instructions</h3>
-      <div class="prose">{{ recipe.instructions|linebreaksbr }}</div>
+          <div class="recipe-wire__reviews">
+            <div class="recipe-wire__reviewsHead">
+              <div class="recipe-wire__subhead">Reviews</div>
+            </div>
+            <div class="stack" id="reviews">
+              {% for review in recipe.reviews.all %}
+                {% include "recipes/_review_item.html" %}
+              {% empty %}
+                <div class="empty">
+                  <div class="empty__title">No reviews yet</div>
+                  <div class="muted">Be the first to leave a rating.</div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 
   {% if user.is_authenticated %}
-    <section class="section">
-      <div class="section__header">
-        <h2 class="section__title">Your review</h2>
+    <dialog class="app-dialog app-dialog--review" id="reviewModal" aria-label="Write a review">
+      <div class="modal__header">
+        <h3 class="modal__title">Write a review…</h3>
+        <button class="btn btn--ghost btn--sm" type="button" data-dialog-close>×</button>
       </div>
-      <form class="card form" id="reviewForm" method="post" action="{% url 'review_upsert' recipe.id %}">
-        {% csrf_token %}
-        <label class="label">Rating</label>
-        {{ review_form.rating }}
-        <label class="label">Comment</label>
-        {{ review_form.comment }}
-        <button class="btn btn--primary" type="submit">Submit</button>
-        <div class="muted" id="reviewError" style="display:none"></div>
-      </form>
-    </section>
-  {% endif %}
+      <div class="modal__body">
+        <form class="review-modal" id="reviewForm" method="post" action="{% url 'cooked:review_upsert' recipe.id %}">
+          {% csrf_token %}
+          <div class="review-modal__grid">
+            <div class="review-modal__thumb">
+              {% if recipe.photo_path %}
+                <img alt="{{ recipe.title }}" src="{% static recipe.photo_path %}" loading="lazy" />
+              {% else %}
+                <div class="tile__placeholder" aria-hidden="true"></div>
+              {% endif %}
+            </div>
 
-  <section class="section">
-    <div class="section__header">
-      <h2 class="section__title">Reviews</h2>
-    </div>
-    <div class="stack" id="reviews">
-      {% for review in recipe.reviews.all %}
-        {% include "recipes/_review_item.html" %}
-      {% empty %}
-        <div class="empty">
-          <div class="empty__title">No reviews yet</div>
-          <div class="muted">Be the first to leave a rating.</div>
-        </div>
-      {% endfor %}
-    </div>
-  </section>
+            <div class="review-modal__content">
+              <div class="review-modal__top">
+                <div>
+                  <div class="recipe-wire__authorIcon" aria-hidden="true">⧗</div>
+                  <div class="muted">@{{ user.username }}</div>
+                </div>
+                <div>
+                  <div class="review-modal__title">{{ recipe.title }}</div>
+                  <div class="review-modal__checks">
+                    <label class="checkline">
+                      <input type="checkbox" name="mark_cooked" {% if cooked_on %}checked{% endif %} />
+                      <span>Cooked on {% if cooked_on %}{{ cooked_on|date:"Y-m-d" }}{% else %}[date]{% endif %}</span>
+                    </label>
+                    <label class="checkline">
+                      <input type="checkbox" name="pinned" {% if my_review and my_review.pinned %}checked{% endif %} />
+                      <span>Pin to profile</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <label class="label">Add a review…</label>
+              <textarea class="input input--textarea" name="comment" rows="6" placeholder="Add a review…">{% if my_review %}{{ my_review.comment }}{% endif %}</textarea>
+
+              <div class="review-modal__bottom">
+                <div>
+                  <div class="muted" style="font-weight:900; margin-bottom:6px">Your rating:</div>
+                  <div class="rating-hats" data-rating-picker>
+                    <input type="hidden" name="rating" value="{% if my_review %}{{ my_review.rating }}{% else %}5{% endif %}" data-rating-value />
+                    {% for i in "12345" %}
+                      <button class="chef-hat chef-hat--on" type="button" data-rate="{{ forloop.counter }}" aria-label="Rate {{ forloop.counter }}"></button>
+                    {% endfor %}
+                  </div>
+                </div>
+                <button class="btn btn--ghost btn--sm" type="submit">Save</button>
+              </div>
+
+              <div class="muted" id="reviewError" style="display:none"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </dialog>
+  {% endif %}
 {% endblock %}

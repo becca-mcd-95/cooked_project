@@ -1,8 +1,6 @@
 <!-- Yanyan Template -->
 {% extends 'cooked/base.html' %}
-{% block title %}
-
-Delete recipe - We're Cooked{% endblock %}
+{% block title %}Delete recipe - We're Cooked{% endblock %}
 {% block content %}
   <section class="section">
     <div class="card">
@@ -11,7 +9,7 @@ Delete recipe - We're Cooked{% endblock %}
       <form method="post">
         {% csrf_token %}
         <button class="btn btn--danger" type="submit">Delete</button>
-        <a class="btn btn--ghost" href="{% url 'recipe_detail' object.id %}">Cancel</a>
+        <a class="btn btn--ghost" href="{% url 'cooked:recipe_detail' object.id %}">Cancel</a>
       </form>
     </div>
   </section>

@@ -4,7 +4,7 @@
 {% if recipes %}
   <div class="grid grid--cards">
     {% for r in recipes %}
-      <a class="card recipe-card" href="{% url 'cooked:recipe_detail' r.id %}">
+      <a class="card recipe-card" href="{% url 'cooked:recipe_detail' r.pk %}">
         {% if r.photo_path %}
           <div class="recipe-card__thumb">
             <img alt="{{ r.title }}" src="{% static r.photo_path %}" loading="lazy" />

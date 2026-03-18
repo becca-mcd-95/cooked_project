@@ -1,50 +1,142 @@
 <!-- Tuoyu template -->
 {% extends 'cooked/base.html' %}
-{% block title %}Ingredient search - We're Cooked{% endblock %}
+{% block title %}Ingredient search - RecipeBoxd{% endblock %}
 {% block content %}
-  <section class="section">
-    <div class="section__header">
-      <h2 class="section__title">Search by ingredients</h2>
-      <div class="muted">Strict = recipe requires only selected ingredients</div>
-    </div>
+<section class="section">
+  <div class="section__header">
+    <h2 class="section__title section__title--center">Ingredients search</h2>
+    <div class="muted" style="text-align:center">Pick ingredients, then search for matching recipes.</div>
+  </div>
 
+  <div class="wirestack">
     <div class="card form">
       <label class="label">Mode</label>
       <div class="seg">
-        <label class="seg__item"><input type="radio" name="mode" value="strict" {% if mode != 'loose' %}checked{% endif %} /> <span>Strict (all required)</span></label>
-        <label class="seg__item"><input type="radio" name="mode" value="loose" {% if mode == 'loose' %}checked{% endif %} /> <span>Loose (any match)</span></label>
+        <label class="seg__item">
+          <input type="radio" name="mode" value="strict" {% if not mode == 'loose' %}checked{% endif %} />
+          <span>Strict (all required)</span>
+        </label>
+
+        <label class="seg__item">
+          <input type="radio" name="mode" value="loose" {% if mode == 'loose' %}checked{% endif %} />
+          <span>Loose (any match)</span>
+        </label>
+
       </div>
 
       <label class="label">Ingredients</label>
       <div class="ingredient-picker" data-ingredient-search>
-        <input class="input input--search" data-filter-input placeholder="Filter ingredients..." />
+        <div class="searchbar">
+          <span class="searchbar__icon" aria-hidden="true">&#128269;</span>
+          <div class="searchbar__chips" data-selected-ingredients></div>
+          <input class="searchbar__input" data-filter-input placeholder="Search ingredients..." />
+        </div>
+
         <div class="ingredient-picker__list" data-filter-list>
           {% for ing in ingredients %}
-            <label class="check" data-filter-item>
-              <input type="checkbox" value="{{ ing.id }}" />
-              <span>{{ ing.name }}</span>
-              <span class="muted">({{ ing.category }})</span>
-            </label>
+          <label class="check" data-filter-item>
+            <input type="checkbox" value="{{ ing.id }}" />
+            <span>{{ ing.name }}</span>
+            <span class="muted">({{ ing.category }})</span>
+          </label>
           {% empty %}
-            <div class="muted">No ingredients found. Run seed data or create some in admin.</div>
+          <div class="muted">No ingredients found. Run seed data or create some in admin.</div>
           {% endfor %}
         </div>
       </div>
 
       <button class="btn btn--primary" type="button" data-ingredient-submit>Search</button>
     </div>
-  </section>
 
-  <section class="section">
-    <div class="section__header">
-      <h2 class="section__title">Results</h2>
-      <div class="muted"><span id="resultCount">0</span> recipes</div>
-    </div>
-    <div id="filterResults">
-      <div class="empty">
-        <div class="empty__title">No results</div>
-        <div class="muted">Select ingredients and click Search.</div>
+    <div class="card filter-panel" data-ingredient-filters aria-label="Filters">
+      <div class="filter-panel__icon" aria-hidden="true">&#x26ED;</div>
+      <div class="filter-panel__grid">
+        <div class="filter-col">
+          <div class="filter-col__title">Country</div>
+          <div class="filter-col__list">
+            {% for c in countries %}
+            <label class="filter-check">
+              <input type="checkbox" name="country" value="{{ c.id }}" />
+              <span>{{ c.name }}</span>
+            </label>
+            {% empty %}
+            <div class="muted">No countries available.</div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="filter-col">
+          <div class="filter-col__title">Cuisine</div>
+          <div class="filter-col__list">
+            {% for c in cuisines %}
+            <label class="filter-check">
+              <input type="checkbox" name="cuisine" value="{{ c }}" />
+              <span>{{ c }}</span>
+            </label>
+            {% empty %}
+            <div class="muted">No cuisines yet.</div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="filter-col">
+          <div class="filter-col__title">Difficulty</div>
+          <div class="filter-col__list">
+            <label class="filter-check">
+              <input type="checkbox" name="difficulty" value="1" />
+              <span class="filter-dots" aria-hidden="true">&#9679;&#9675;&#9675;&#9675;&#9675;</span>
+            </label>
+            <label class="filter-check">
+              <input type="checkbox" name="difficulty" value="2" />
+              <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9675;&#9675;&#9675;</span>
+            </label>
+            <label class="filter-check">
+              <input type="checkbox" name="difficulty" value="3" />
+              <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9679;&#9675;&#9675;</span>
+            </label>
+            <label class="filter-check">
+              <input type="checkbox" name="difficulty" value="4" />
+              <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9679;&#9679;&#9675;</span>
+            </label>
+            <label class="filter-check">
+              <input type="checkbox" name="difficulty" value="5" />
+              <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9679;&#9679;&#9679;</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-col">
+          <div class="filter-col__title">Occasion</div>
+          <div class="filter-col__list">
+            {% for o in occasions %}
+            <label class="filter-check">
+              <input type="checkbox" name="occasion" value="{{ o }}" />
+              <span>{{ o }}</span>
+            </label>
+            {% empty %}
+            <div class="muted">No occasions yet.</div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section__header">
+    <h2 class="section__title">Results</h2>
+    <div class="muted"><span id="resultCount">0</span> recipes</div>
+  </div>
+  <div class="results-caption">
+    <div class="muted" data-results-caption>Showing best matches</div>
+    <div class="results-caption__icons" aria-hidden="true">&darr;&uarr;</div>
+  </div>
+  <div id="filterResults">
+    <div class="empty">
+      <div class="empty__title">No results</div>
+      <div class="muted">Select ingredients and click Search.</div>
+    </div>
+  </div>
+</section>
 {% endblock %}

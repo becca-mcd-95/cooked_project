@@ -2,7 +2,7 @@
 {% extends 'cooked/base.html' %}
 <div class="card review-card" data-review-id="{{ review.id }}">
   <div class="review-card__top">
-    <a class="link" href="{% url 'profile' review.user.username %}">@{{ review.user.username }}</a>
+    <a class="link" href="{% url 'cooked:user_profile' review.user.username %}">@{{ review.user.username }}</a>
     <div class="stars" data-stars="{{ review.rating }}"></div>
   </div>
   {% if review.comment %}
@@ -17,5 +17,3 @@
     </div>
   {% endif %}
 </div>
-
-<!--  -->

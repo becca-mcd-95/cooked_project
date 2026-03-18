@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.conf import settings
 from django.db.models import Avg
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 
 # Becca models
 # this class was written with help as a placeholder 
@@ -29,8 +30,21 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 class Recipe(models.Model):
     title = models.CharField(max_length=160, db_index=True)
+    description = models.TextField(blank=True, default="")
     instructions = models.TextField(blank=True)
+    prep_time_minutes = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
     cooking_time_minutes = models.PositiveIntegerField(default=0)
+    serving_size = models.CharField(max_length=60, blank=True, default="")
+    cuisine = models.CharField(max_length=60, blank=True, default="", db_index=True)
+    difficulty = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        default=None,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        db_index=True,
+        help_text="1-5 increasing difficulty (leave blank if unspecified).",
+    )
+    occasion = models.CharField(max_length=60, blank=True, default="", db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     photo_path = models.CharField(max_length=255, blank=True, default="")
     origin_country = models.ForeignKey(
@@ -63,12 +77,13 @@ class Review(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)],
     )
     comment = models.TextField(blank=True)
+    pinned = models.BooleanField(default=False, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-created_at"]
         unique_together = ("recipe", "user")
+
 
     def __str__(self) -> str:
         return f"{self.recipe_id}:{self.user_id} ({self.rating})"
@@ -100,32 +115,56 @@ class Country(models.Model):
     def code(self) -> str:
         return (self.map_code or self.iso2).upper()
 
-
 class Follow(models.Model):
-    follower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following_set")
-    following = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followers_set")
+    follower = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="following_set"
+    )
+    following = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="followers_set"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ("follower", "following")
 
-    def __str__(self) -> str:
-        return f"{self.follower_id}->{self.following_id}"
+    def clean(self):
+        if self.follower_id == self.following_id:
+            raise ValidationError("Users cannot follow themselves.")
 
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.follower_id}->{self.following_id}"
 
 class RecipeStatus(models.Model):
     STATUS_WISHLIST = "wishlist"
     STATUS_COOKED = "cooked"
-    STATUS_CHOICES = [(STATUS_WISHLIST, "Wishlist"), (STATUS_COOKED, "Cooked")]
+    STATUS_CHOICES = [
+        (STATUS_WISHLIST, "Wishlist"),
+        (STATUS_COOKED, "Cooked"),
+    ]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="recipe_statuses")
-    recipe = models.ForeignKey("cooked.Recipe", on_delete=models.CASCADE, related_name="statuses")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="recipe_statuses"
+    )
+    recipe = models.ForeignKey(
+        "cooked.Recipe",
+        on_delete=models.CASCADE,
+        related_name="statuses"
+    )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ("user", "recipe", "status")
 
-
-    def __str__(self) -> str:
+    def __str__(self):
         return f"{self.user_id}:{self.recipe_id}:{self.status}"

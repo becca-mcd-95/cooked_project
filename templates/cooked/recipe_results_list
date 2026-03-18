@@ -1,0 +1,43 @@
+
+<!-- Yanyan template -->
+{% load static %}
+{% if recipes %}
+  <div class="result-list">
+    {% for r in recipes %}
+      <a class="result-row" href="{% url 'cooked:recipe_detail' r.pk %}">
+        {% if r.photo_path %}
+          <div class="result-row__thumb">
+            <img alt="{{ r.title }}" src="{% static r.photo_path %}" loading="lazy" />
+          </div>
+        {% else %}
+          <div class="result-row__thumb result-row__thumb--empty" aria-hidden="true"></div>
+        {% endif %}
+
+        <div class="result-row__body">
+          <div class="result-row__top">
+            <div class="result-row__title">{{ r.title }}</div>
+            <div class="result-row__rating">
+              <div class="stars" data-stars="{{ r.avg_rating }}"></div>
+            </div>
+          </div>
+          <div class="muted">
+            Posted by <span class="link">@{{ r.author.username }}</span>
+            {% if r.origin_country %} · {{ r.origin_country.name }}{% endif %}
+          </div>
+          <div class="result-row__desc">
+            {% if r.instructions %}
+              {{ r.instructions|truncatechars:180 }}
+            {% else %}
+              <span class="muted">No description of recipe…</span>
+            {% endif %}
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty">
+    <div class="empty__title">No matching recipes</div>
+    <div class="muted">Try a different search term.</div>
+  </div>
+{% endif %}

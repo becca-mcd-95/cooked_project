@@ -1,87 +1,194 @@
 <!-- Yanyan Template -->
 {% extends 'cooked/base.html' %}
 {% load static %}
-{% block title %}Recipes - RecipeBoxd{% endblock %}
+
 {% block content %}
-  <section class="hero">
-    <div class="hero__content">
-      <h1 class="hero__title">Recipes & reviews, like a cooking Letterboxd.</h1>
-      <p class="hero__subtitle">Create recipes, rate & review, search by ingredients, and follow cooks.</p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="{% url 'ingredient_search' %}">Find by ingredients</a>
-        {% if user.is_authenticated %}
-          <a class="btn btn--ghost" href="{% url 'recipe_create' %}">Create a recipe</a>
-        {% else %}
-          <a class="btn btn--ghost" href="{% url 'login' %}">Sign in</a>
-        {% endif %}
+<div class="container"> 
+  {% if q %}
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title section__title--center">Ingredients search</h2>
+        <div class="muted" style="text-align:center">Search results from the top search bar.</div>
       </div>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="section__header">
-      <h2 class="section__title">Latest recipes</h2>
-    </div>
-
-    {% if recipes %}
-      <div class="grid grid--cards">
-        {% for r in recipes %}
-          <article class="card recipe-card">
-            {% if r.photo_path %}
-              <a class="recipe-card__thumb" href="{% url 'recipe_detail' r.id %}">
-                <img alt="{{ r.title }}" src="{% static r.photo_path %}" loading="lazy" />
-              </a>
-            {% else %}
-              <div class="recipe-card__thumb recipe-card__thumb--empty">
-                <div class="muted">No photo</div>
-              </div>
-            {% endif %}
-            <div class="recipe-card__meta">
-              <div class="stars" data-stars="{{ r.avg_rating }}"></div>
-              {% if r.cooking_time_minutes %}
-                <div class="pill">{{ r.cooking_time_minutes }} min</div>
-              {% endif %}
-            </div>
-            <a class="recipe-card__title" href="{% url 'recipe_detail' r.id %}">{{ r.title }}</a>
-            {% if r.origin_country %}
-              <div class="muted">Origin: {{ r.origin_country.name }}</div>
-            {% endif %}
-            <div class="chips">
-              {% for ing in r.ingredients.all|slice:":6" %}
-                <span class="chip">{{ ing.name }}</span>
+      <form class="wirestack" action="{% url 'cooked:recipe_list' %}" method="get" id="recipeSearchForm" data-recipe-search-form>
+        <div class="card">
+          <div class="searchbar">
+            <span class="searchbar__icon" aria-hidden="true">&#128269;</span>
+            <div class="searchbar__chips" aria-label="Search terms">
+              {% for t in q_terms %}
+                <span class="chip">{{ t }}</span>
               {% endfor %}
-              {% if r.ingredients.count > 6 %}
-                <span class="chip chip--muted">+{{ r.ingredients.count|add:"-6" }}</span>
-              {% endif %}
             </div>
-            <div class="recipe-card__footer">
-              <div class="muted">{{ r.created_at|date:"Y-m-d" }}</div>
-              <a class="link" href="{% url 'profile' r.author.username %}">@{{ r.author.username }}</a>
+            <input class="searchbar__input" name="q" value="{{ q }}" placeholder="search" />
+          </div>
+        </div>
+
+        <div class="card filter-panel" data-recipe-search-filters aria-label="Filters">
+          <div class="filter-panel__icon" aria-hidden="true">&#x26ED;</div>
+          <div class="filter-panel__grid">
+            <div class="filter-col">
+              <div class="filter-col__title">Country</div>
+              <div class="filter-col__list">
+                {% for c in countries %}
+                  <label class="filter-check">
+                    <input type="checkbox" name="country" value="{{ c.id }}" {% if c.id in selected_country_ids %}checked{% endif %} />
+                    <span>{{ c.name }}</span>
+                  </label>
+                {% empty %}
+                  <div class="muted">No countries available.</div>
+                {% endfor %}
+              </div>
             </div>
-          </article>
-        {% endfor %}
+            <div class="filter-col">
+              <div class="filter-col__title">Cuisine</div>
+              <div class="filter-col__list">
+                {% for c in cuisines %}
+                  <label class="filter-check">
+                    <input type="checkbox" name="cuisine" value="{{ c }}" {% if c in selected_cuisines %}checked{% endif %} />
+                    <span>{{ c }}</span>
+                  </label>
+                {% empty %}
+                  <div class="muted">No cuisines yet.</div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="filter-col">
+              <div class="filter-col__title">Difficulty</div>
+              <div class="filter-col__list">
+                <label class="filter-check">
+                  <input type="checkbox" name="difficulty" value="1" {% if 1 in selected_difficulties %}checked{% endif %} />
+                  <span class="filter-dots" aria-hidden="true">&#9679;&#9675;&#9675;&#9675;&#9675;</span>
+                </label>
+                <label class="filter-check">
+                  <input type="checkbox" name="difficulty" value="2" {% if 2 in selected_difficulties %}checked{% endif %} />
+                  <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9675;&#9675;&#9675;</span>
+                </label>
+                <label class="filter-check">
+                  <input type="checkbox" name="difficulty" value="3" {% if 3 in selected_difficulties %}checked{% endif %} />
+                  <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9679;&#9675;&#9675;</span>
+                </label>
+                <label class="filter-check">
+                  <input type="checkbox" name="difficulty" value="4" {% if 4 in selected_difficulties %}checked{% endif %} />
+                  <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9679;&#9679;&#9675;</span>
+                </label>
+                <label class="filter-check">
+                  <input type="checkbox" name="difficulty" value="5" {% if 5 in selected_difficulties %}checked{% endif %} />
+                  <span class="filter-dots" aria-hidden="true">&#9679;&#9679;&#9679;&#9679;&#9679;</span>
+                </label>
+              </div>
+            </div>
+            <div class="filter-col">
+              <div class="filter-col__title">Occasion</div>
+              <div class="filter-col__list">
+                {% for o in occasions %}
+                  <label class="filter-check">
+                    <input type="checkbox" name="occasion" value="{{ o }}" {% if o in selected_occasions %}checked{% endif %} />
+                    <span>{{ o }}</span>
+                  </label>
+                {% empty %}
+                  <div class="muted">No occasions yet.</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title">Results</h2>
+        <div class="muted"><span>{{ page_obj.paginator.count }}</span> recipes</div>
       </div>
+      <div class="results-caption">
+        <div class="muted">Showing best matches for "{{ q }}"</div>
+        <div class="results-caption__icons" aria-hidden="true">&darr;&uarr;</div>
+      </div>
+
+      {% include "recipes/_recipe_results_list.html" with recipes=recipes %}
 
       {% if is_paginated %}
         <nav class="pagination">
           {% if page_obj.has_previous %}
-            <a class="btn btn--ghost" href="?{% if request.GET.q %}q={{ request.GET.q|urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}">Prev</a>
+            <a class="btn btn--ghost" href="?{% if search_querystring %}{{ search_querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">Prev</a>
           {% else %}
             <span class="btn btn--ghost btn--disabled">Prev</span>
           {% endif %}
           <span class="muted">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
           {% if page_obj.has_next %}
-            <a class="btn btn--ghost" href="?{% if request.GET.q %}q={{ request.GET.q|urlencode }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn--ghost" href="?{% if search_querystring %}{{ search_querystring }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
           {% else %}
             <span class="btn btn--ghost btn--disabled">Next</span>
           {% endif %}
         </nav>
       {% endif %}
-    {% else %}
-      <div class="empty">
-        <div class="empty__title">No recipes yet</div>
-        <div class="muted">Run `python manage.py seed_demo` or create your first recipe.</div>
+    </section>
+  {% else %}
+    <section class="section">
+      <h1 class="home-title">Recipes</h1>
+      <div class="browseby">
+        <div class="muted browseby__label">Browse by:</div>
+        <div class="browseby__tabs" role="tablist" aria-label="Browse by">
+          <a class="browseby__tab {% if browse == 'country' %}browseby__tab--active{% endif %}" href="?browse=country" role="tab" aria-selected="{% if browse == 'country' %}true{% else %}false{% endif %}">Country</a>
+          <a class="browseby__tab {% if browse == 'cuisine' %}browseby__tab--active{% endif %}" href="?browse=cuisine" role="tab" aria-selected="{% if browse == 'cuisine' %}true{% else %}false{% endif %}">Cuisine</a>
+          <a class="browseby__tab {% if browse == 'difficulty' %}browseby__tab--active{% endif %}" href="?browse=difficulty" role="tab" aria-selected="{% if browse == 'difficulty' %}true{% else %}false{% endif %}">Difficulty</a>
+          <a class="browseby__tab {% if browse == 'occasion' %}browseby__tab--active{% endif %}" href="?browse=occasion" role="tab" aria-selected="{% if browse == 'occasion' %}true{% else %}false{% endif %}">Occasion</a>
+        </div>
       </div>
-    {% endif %}
-  </section>
+
+      <div class="home-section">
+        <div class="home-section__title muted">New uploads...</div>
+        <div class="home-section__line"></div>
+        <div class="tile-grid">
+          {% for r in new_uploads %}
+            {% include "recipes/_home_tile.html" with r=r %}
+          {% empty %}
+            <div class="empty">
+              <div class="empty__title">No recipes</div>
+              <div class="muted">Seed demo data or create a recipe.</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="home-section">
+        <div class="home-section__title muted">Popular this week</div>
+        <div class="home-section__line"></div>
+        <div class="tile-grid">
+          {% for r in popular_week %}
+            {% include "recipes/_home_tile.html" with r=r %}
+          {% empty %}
+            <div class="empty">
+              <div class="empty__title">No popular recipes</div>
+              <div class="muted">Leave some reviews to get started.</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="home-section" {% if user.is_authenticated %}data-to-cook-section{% endif %}>
+        <div class="home-section__title muted">Your To-Cook list</div>
+        <div class="home-section__line"></div>
+        {% if user.is_authenticated %}
+          <div class="tile-grid">
+            {% for r in to_cook %}
+              {% include "recipes/_home_tile.html" with r=r %}
+            {% empty %}
+              <div class="empty">
+                <div class="empty__title">Nothing saved yet</div>
+                <div class="muted">Tap &#9829; on a recipe to add it.</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty">
+            <div class="empty__title">Sign in to see your list</div>
+            <div class="muted"><a class="link" href="{% url 'cooked:login' %}">Log in</a> to manage your to-cook recipes.</div>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+</div>
 {% endblock %}

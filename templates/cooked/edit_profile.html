@@ -4,96 +4,100 @@
 
 {% block content %}
 <div class="auth-page">
-  <div class="auth-card" style="max-width: 560px;">
-    <h1 class="auth-title mb-4">Edit Profile</h1>
-    <form method="post" enctype="multipart/form-data" novalidate>
-      {% csrf_token %}
-      <!-- photo uploads -->
-      <div class="edit-photo-section mb-4">
-        <div class="edit-banner-wrap">
-          {% if profile.header_photo %}
-            <img src="{{ profile.header_photo.url }}" alt="Banner" class="edit-banner-preview" id="bannerPreview">
-          {% else %}
-            <div class="edit-banner-preview edit-banner-empty" id="bannerPreview"></div>
-          {% endif %}
-          <label for="{{ form.header_photo.id_for_label }}" class="edit-photo-btn edit-banner-btn">
-            <i class="bi bi-camera"></i>
-          </label>
-          <input type="file" name="{{ form.header_photo.html_name }}"
-                 id="{{ form.header_photo.id_for_label }}"
-                 class="edit-file-input" accept="image/*"
-                 onchange="previewImage(this, 'bannerPreview')">
-        </div>
-        <!-- this isn't showing up on the site and I have lost the will to make it work -->
-        <div class="edit-avatar-wrap">
-          {% if profile.profile_picture %}
-            <img src="{{ profile.profile_picture.url }}" alt="Photo" class="edit-avatar-preview" id="avatarPreview">
-          {% else %}
-            <div class="edit-avatar-preview edit-avatar-empty" id="avatarPreview">
-              <i class="bi bi-person-fill"></i>
+    <div class="auth-card" style="max-width: 560px;">
+        <h1 class="auth-title mb-4">Edit Profile</h1>
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <!-- photo uploads -->
+            <div class="mb-3">
+                <label class="auth-label">Header Photo</label>
+                <div class="edit-banner-wrap">
+                    {% if profile.header_photo %}
+                    <img src="{{ profile.header_photo.url }}" alt="Banner" class="edit-banner-preview"
+                        id="bannerPreview">
+                    {% else %}
+                    <div class="edit-banner-empty" id="bannerPreview"></div>
+                    {% endif %}
+                    <label for="{{ form.header_photo.id_for_label }}" class="edit-photo-btn edit-banner-btn">
+                        <i class="bi bi-camera"></i>
+                    </label>
+                    <input type="file" name="{{ form.header_photo.html_name }}"
+                        id="{{ form.header_photo.id_for_label }}" class="edit-file-input" accept="image/*"
+                        onchange="previewImage(this, 'bannerPreview')">
+                </div>
             </div>
-          {% endif %}
-          <label for="{{ form.profile_picture.id_for_label }}" class="edit-photo-btn edit-avatar-btn">
-            <i class="bi bi-camera"></i>
-          </label>
-          <input type="file" name="{{ form.profile_picture.html_name }}"
-                 id="{{ form.profile_picture.id_for_label }}"
-                 class="edit-file-input" accept="image/*"
-                 onchange="previewImage(this, 'avatarPreview')">
-        </div>
-      </div>
-      <!-- name -->
-      <div class="mb-3">
-        <label for="{{ user_form.first_name.id_for_label }}" class="auth-label">Name</label>
-        <input type="text" name="{{ user_form.first_name.html_name }}"
-               id="{{ user_form.first_name.id_for_label }}"
-               class="form-control auth-input" placeholder="Your name"
-               value="{{ user_form.first_name.value|default:'' }}">
-      </div>
-      <!-- username -->
-      <div class="mb-3">
-        <label for="{{ user_form.username.id_for_label }}" class="auth-label">Username</label>
-        <input type="text" name="{{ user_form.username.html_name }}"
-               id="{{ user_form.username.id_for_label }}"
-               class="form-control auth-input" placeholder="Your username"
-               value="{{ user_form.username.value|default:'' }}">
-      </div>
-      <!-- bio -->
-      <div class="mb-3">
-        <label for="{{ form.bio.id_for_label }}" class="auth-label">Bio</label>
-        <textarea name="{{ form.bio.html_name }}" id="{{ form.bio.id_for_label }}"
-                  class="form-control auth-input" rows="4"
-                  placeholder="Tell us about yourself...">{{ form.bio.value|default:'' }}</textarea>
-        {% if form.bio.errors %}
-          <div class="text-danger small mt-1">{{ form.bio.errors|join:", " }}</div>
-        {% endif %}
-      </div>
-      <div class="d-flex gap-2">
-        <button type="submit" class="btn auth-submit-btn flex-grow-1">Save changes</button>
-        <a href="{% url 'cooked:user_profile' %}" class="btn btn-outline-secondary flex-grow-1 auth-cancel-btn">Cancel</a>
-      </div>
-    </form>
-  </div> 
-</div> 
+
+            <div class="mb-4">
+                <label class="auth-label">Profile Photo</label>
+                <div class="edit-avatar-wrap-simple">
+                    {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="Photo" class="edit-avatar-preview"
+                        id="avatarPreview">
+                    {% else %}
+                    <div class="edit-avatar-empty" id="avatarPreview">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    {% endif %}
+                    <label for="{{ form.profile_picture.id_for_label }}" class="edit-photo-btn"
+                        style="position:absolute; bottom:4px; right:4px;">
+                        <i class="bi bi-camera"></i>
+                    </label>
+                    <input type="file" name="{{ form.profile_picture.html_name }}"
+                        id="{{ form.profile_picture.id_for_label }}" class="edit-file-input" accept="image/*"
+                        onchange="previewImage(this, 'avatarPreview')">
+                </div>
+            </div>
+            <!-- name -->
+            <div class="mb-3">
+                <label for="{{ user_form.first_name.id_for_label }}" class="auth-label">Name</label>
+                <input type="text" name="{{ user_form.first_name.html_name }}"
+                    id="{{ user_form.first_name.id_for_label }}" class="form-control auth-input" placeholder="Your name"
+                    value="{{ user_form.first_name.value|default:'' }}">
+            </div>
+            <!-- username -->
+            <div class="mb-3">
+                <label for="{{ user_form.username.id_for_label }}" class="auth-label">Username</label>
+                <input type="text" name="{{ user_form.username.html_name }}" id="{{ user_form.username.id_for_label }}"
+                    class="form-control auth-input" placeholder="Your username"
+                    value="{{ user_form.username.value|default:'' }}">
+            </div>
+            <!-- bio -->
+            <div class="mb-3">
+                <label for="{{ form.bio.id_for_label }}" class="auth-label">Bio</label>
+                <textarea name="{{ form.bio.html_name }}" id="{{ form.bio.id_for_label }}"
+                    class="form-control auth-input" rows="4"
+                    placeholder="Tell us about yourself...">{{ form.bio.value|default:'' }}</textarea>
+                {% if form.bio.errors %}
+                <div class="text-danger small mt-1">{{ form.bio.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn auth-submit-btn flex-grow-1">Save changes</button>
+                <a href="{% url 'cooked:user_profile' %}"
+                    class="btn btn-outline-secondary flex-grow-1 auth-cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
-  function previewImage(input, previewId) {
-    const preview = document.getElementById(previewId);
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        if (preview.tagName === 'IMG') {
-          preview.src = e.target.result;
-        } else {
-          const img = document.createElement('img');
-          img.src = e.target.result;
-          img.id = previewId;
-          img.className = previewId === 'bannerPreview' ? 'edit-banner-preview' : 'edit-avatar-preview';
-          preview.parentNode.replaceChild(img, preview);
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (preview.tagName === 'IMG') {
+                    preview.src = e.target.result;
+                } else {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.id = previewId;
+                    img.className = previewId === 'bannerPreview' ? 'edit-banner-preview' : 'edit-avatar-preview';
+                    preview.parentNode.replaceChild(img, preview);
+                }
+            };
+            reader.readAsDataURL(input.files[0]);
         }
-      };
-      reader.readAsDataURL(input.files[0]);
     }
-  }
 </script>
 {% endblock %}

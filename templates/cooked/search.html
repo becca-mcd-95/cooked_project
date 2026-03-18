@@ -1,14 +1,33 @@
 {% extends "cooked/base.html" %}
+{% load static %}
 {% block content %}
-<h2>Search results for "{{ query }}"</h2>
+<div class="container py-4">
 
-{% if users %}
-    <ul>
-        {% for u in users %}
-            <li><a href="{% url 'cooked:user_profile' %}?user={{ u.id }}">{{ u.username }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No users found.</p>
-{% endif %}
+  <div class="section-header mb-4">
+    <h2 class="section-heading">Search results for "{{ query }}"</h2>
+  </div>
+
+  {% if users %}
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      {% for user in users %}
+      <div class="col">
+        <a href="{% url 'cooked:user_profile' user.username %}" class="card d-flex flex-row align-items-center gap-3 p-3 text-decoration-none">
+          <div class="profile-avatar-placeholder profile-avatar d-flex align-items-center justify-content-center" style="width:48px; height:48px; font-size:1.2rem; flex-shrink:0;">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div>
+            <p class="mb-0 fw-bold" style="color: var(--green-text);">@{{ user.username }}</p>
+            {% if user.profile.city %}
+              <p class="mb-0" style="font-size:0.8rem; color: var(--green-muted);">{{ user.profile.city }}</p>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p style="color: var(--green-muted); font-style: italic;">No users found for "{{ query }}".</p>
+  {% endif %}
+
+</div>
 {% endblock %}
