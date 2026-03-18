@@ -1,10 +1,10 @@
 from django.apps import AppConfig
-from cooked.models import create_user_profile
 
 class CookedConfig(AppConfig):
     name = 'cooked'
 
     def ready(self):
+        from cooked.models import create_user_profile
         create_user_profile()
 
 
