@@ -29,7 +29,7 @@
 
           <div class="recipe-wire__media">
             {% if recipe.photo_path %}
-              <img alt="{{ recipe.title }}" src="{% static recipe.photo_path %}" loading="lazy" />
+              <img alt="{{ recipe.title }}" src="{% recipe.photo_path %}" loading="lazy" />
             {% else %}
               <div class="tile__placeholder" aria-hidden="true"></div>
             {% endif %}
@@ -148,7 +148,7 @@
           <div class="review-modal__grid">
             <div class="review-modal__thumb">
               {% if recipe.photo_path %}
-                <img alt="{{ recipe.title }}" src="{% static recipe.photo_path %}" loading="lazy" />
+                <img alt="{{ recipe.title }}" src="{% recipe.photo_path %}" loading="lazy" />
               {% else %}
                 <div class="tile__placeholder" aria-hidden="true"></div>
               {% endif %}

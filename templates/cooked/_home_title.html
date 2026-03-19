@@ -2,7 +2,7 @@
 <a class="tile" href="{% url 'cooked:recipe_detail' r.pk %}">
   <div class="tile__media">
     {% if r.photo_path %}
-      <img src="{% static r.photo_path %}" alt="{{ r.title }}" loading="lazy">
+      <img src="{{ r.photo_path }}" alt="{{ r.title }}" loading="lazy">
     {% else %}
       <div class="tile__placeholder"></div>
     {% endif %}
