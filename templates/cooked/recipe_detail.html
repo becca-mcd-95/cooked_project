@@ -122,7 +122,7 @@
             </div>
             <div class="stack" id="reviews">
               {% for review in recipe.reviews.all %}
-                {% include "recipes/_review_item.html" %}
+                {% include "cooked/_review_item.html" %}
               {% empty %}
                 <div class="empty">
                   <div class="empty__title">No reviews yet</div>

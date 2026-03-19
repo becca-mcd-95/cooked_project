@@ -106,7 +106,7 @@
         <div class="results-caption__icons" aria-hidden="true">&darr;&uarr;</div>
       </div>
 
-      {% include "recipes/_recipe_results_list.html" with recipes=recipes %}
+      {% include "cooked/_recipe_results_list.html" with recipes=recipes %}
 
       {% if is_paginated %}
         <nav class="pagination">
@@ -142,7 +142,7 @@
         <div class="home-section__line"></div>
         <div class="tile-grid">
           {% for r in new_uploads %}
-            {% include "recipes/_home_tile.html" with r=r %}
+            {% include "cooked/_home_tile.html" with r=r %}
           {% empty %}
             <div class="empty">
               <div class="empty__title">No recipes</div>
@@ -157,7 +157,7 @@
         <div class="home-section__line"></div>
         <div class="tile-grid">
           {% for r in popular_week %}
-            {% include "recipes/_home_tile.html" with r=r %}
+            {% include "cooked/_home_tile.html" with r=r %}
           {% empty %}
             <div class="empty">
               <div class="empty__title">No popular recipes</div>
@@ -173,7 +173,7 @@
         {% if user.is_authenticated %}
           <div class="tile-grid">
             {% for r in to_cook %}
-              {% include "recipes/_home_tile.html" with r=r %}
+              {% include "cooked/_home_tile.html" with r=r %}
             {% empty %}
               <div class="empty">
                 <div class="empty__title">Nothing saved yet</div>
