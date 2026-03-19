@@ -23,13 +23,13 @@
 
             <div class="recipe-wire__author">
               <div class="recipe-wire__authorIcon" aria-hidden="true">⧗</div>
-              <a class="link" href="{% url 'cooked:user_profile' recipe.author.username %}">@{{ recipe.author.username }}</a>
+              <a class="link" href="{% url 'cooked:profile' recipe.author.username %}">@{{ recipe.author.username }}</a>
             </div>
           </div>
 
           <div class="recipe-wire__media">
             {% if recipe.photo_path %}
-              <img alt="{{ recipe.title }}" src="{% recipe.photo_path %}" loading="lazy" />
+              <img alt="{{ recipe.title }}" src="{{ recipe.photo_path }}" loading="lazy" />
             {% else %}
               <div class="tile__placeholder" aria-hidden="true"></div>
             {% endif %}
