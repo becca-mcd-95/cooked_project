@@ -1651,13 +1651,13 @@ button.chef-hat{
   font-weight:900;
 }
 
-.recipe-wire__media{
-  margin-top:10px;
-  border-radius:16px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(0,0,0,.18);
-  aspect-ratio:16 / 9;
+.recipe-wire__media {
+    margin-top: 10px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(0,0,0,.18);
+    height: 320px;  /* replace aspect-ratio with this */
 }
 .recipe-wire__media img{width:100%; height:100%; object-fit:cover; display:block}
 .recipe-wire__desc{
