@@ -44,11 +44,6 @@
                             + Add Recipe
                         </a>
                         {% endif %}
-                        {% else %}
-                        <a href="{% url 'cooked:edit_profile' %}" class="btn btn-sm btn-outline-light">
-                            Edit Profile <i class="bi bi-gear ms-1"></i>
-                        </a>
-                        {% endif %}
                     </div>
                     {% if profile.bio %}
                     <p class="profile-bio mb-0">{{ profile.bio }}</p>
