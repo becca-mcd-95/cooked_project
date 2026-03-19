@@ -9,7 +9,7 @@
         <div class="profile-banner">
             <!-- header photo and logic to place profile photo -->
             {% if profile.header_photo %}
-            <img src=" {{ profile.header_photo.url }}" alt="Banner" class="profile-banner-img">
+            <img src="{{ profile.header_photo.url }}" alt="Banner" class="profile-banner-img">
             {% else %}
             <div class="profile-banner-placeholder"></div>
             {% endif %}
@@ -19,7 +19,7 @@
                 <div class="profile-identity">
                     <div class="profile-avatar-wrap mb-2">
                         {% if profile.profile_picture %}
-                        <img src="{{ profile.profile_photo.url }}" alt=" {{ profile.user.username }}"
+                        <img src="{{ profile.profile_picture.url }}" alt=" {{ profile.user.username }}"
                             class="profile-avatar">
                         {% else %}
                         <div class="profile-avatar profile-avatar-placeholder">
@@ -28,7 +28,7 @@
                         {% endif %}
                     </div>
                     <!-- username and bio -->
-                    <div class="d-flex align-items-centre gap-2 flex-wrap mb-2">
+                    <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
                         <span class="profile-username">@{{ profile.user.username }}</span>
                         {% if request.user != profile.user %}
                         {% if request.user.is_authenticated %}
