@@ -30,9 +30,9 @@
             data-in-wishlist="false">
 
             {% if recipe.image %}
-              <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-img">
+              <img src="{{ static recipe.photo_path }}" alt="{{ recipe.title }}" class="recipe-img">
             {% else %}
-              <img src="{% static 'images/placeholder.png' %}" alt="{{ recipe.title }}" class="recipe-img">
+              <img src="https://placehold.co/145x218/2e5939/9be7a1?text=🍽" alt="{{ recipe.title }}" class="recipe-img">
             {% endif %}
 
             <span class="overlay-actions">
@@ -136,14 +136,14 @@
       <div class="review-card">
         <a href="javascript:void(0)" class="review-card-thumb">
           {% if review.recipe.image %}
-            <img src="{{ review.recipe.image.url }}" alt="{{ review.recipe.title }}">
+            <img src="{% static review.recipe.photo_path %}" alt="{{ review.recipe.title }}">
           {% else %}
-            <img src="{% static 'images/placeholder.png' %}" alt="{{ review.recipe.title }}">
+            <img src="https://placehold.co/54x81/2e5939/9be7a1?text=🍽" alt="{{ review.recipe.title }}">
           {% endif %}
         </a>
         <div class="review-card-body">
           <div class="review-card-header">
-            <span class="review-card-author">{{ review.author.username }}</span>
+            <span class="review-card-author">{{ review.user.username }}</span>
             <div class="review-card-rating">
               {% for i in "12345" %}
                 <span class="bi bi-cup-hot{% if forloop.counter <= review.rating %}-fill{% endif %} chef-icon-sm"></span>
@@ -151,7 +151,7 @@
             </div>
           </div>
           <a href="javascript:void(0)" class="review-card-title">{{ review.recipe.title }}</a>
-          <p class="review-card-text">{{ review.comment_text|truncatechars:160 }}</p>
+          <p class="review-card-text">{{ review.comment|truncatechars:160 }}</p>
           <div class="review-card-meta">
             <span class="review-likes"><i class="bi bi-heart-fill"></i> {{ review.like_count|default:"0" }}</span>
           </div>
@@ -191,9 +191,3 @@
 
 </div>
 {% endblock %}
-
-<!-- In here we will have title block, 
- then popular recipes block, 
- new recipes block, 
- top reviews block 
- plus navbar -->

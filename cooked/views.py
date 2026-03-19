@@ -24,7 +24,16 @@ from .uploads import delete_recipe_photo, save_recipe_photo
 # Becca views
 
 def home(request):
-    return render(request, 'cooked/home.html')
+    new_recipes = Recipe.objects.select_related('author').order_by('-created_at')[:8]
+    popular_recipes = Recipe.objects.select_related('author').annotate(
+        review_count=Count('reviews')
+    ).order_by('-review_count', '-created_at')[:8]
+    popular_reviews = Review.objects.select_related('user', 'recipe').order_by('-created_at')[:6]
+    
+    return render(request, 'cooked/home.html', {
+        'new_recipes': new_recipes,
+        'popular_recipes': popular_recipes,
+        'popular_reviews': popular_reviews})
 
 def login(request):
     if request.method == 'POST':
@@ -94,11 +103,6 @@ def search_users(request):
     q = request.GET.get("q", "")
     users = User.objects.filter(username__icontains=q) if q else []
     return render(request, "cooked/search.html", {"query": q, "users": users})
-
-# temporary view for hardcoding content to user_profile, again can be removed 
-
-def demo_profile(request):
-    return render(request, 'cooked/user_profile_demo.html')
 
 def profile(request, username):
     profile_user = get_object_or_404(User, username=username)

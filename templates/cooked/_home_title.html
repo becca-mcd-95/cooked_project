@@ -1,0 +1,21 @@
+{% load static %}
+<a class="tile" href="{% url 'cooked:recipe_detail' r.pk %}">
+  <div class="tile__media">
+    {% if r.photo_path %}
+      <img src="{% static r.photo_path %}" alt="{{ r.title }}" loading="lazy">
+    {% else %}
+      <div class="tile__placeholder"></div>
+    {% endif %}
+  </div>
+  <div class="tile__meta">
+    <span class="iconmeta">
+      <span class="iconmeta__count">{{ r.reviews_count|default:"0" }}</span>
+    </span>
+    {% if r.cooking_time_minutes %}
+      <span class="iconmeta">{{ r.cooking_time_minutes }}m</span>
+    {% endif %}
+  </div>
+  <div style="font-size: 0.8rem; margin-top: 4px; color: var(--green-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+    {{ r.title }}
+  </div>
+</a>
