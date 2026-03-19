@@ -19,7 +19,8 @@
                 <div class="profile-identity">
                     <div class="profile-avatar-wrap mb-2">
                         {% if profile.profile_picture %}
-                        <img src="{{ profile.profile_photo.url }}" alt=" {{ profile.user.username }}" class="profile-avatar">
+                        <img src="{{ profile.profile_photo.url }}" alt=" {{ profile.user.username }}"
+                            class="profile-avatar">
                         {% else %}
                         <div class="profile-avatar profile-avatar-placeholder">
                             <i class="bi bi-person-fill"></i>
@@ -36,7 +37,15 @@
                         </button>
                         {% endif %}
                         {% else %}
-                        <a href ="{% url 'cooked:edit_profile' %}" class="btn btn-sm btn-outline-light">
+                        <a href="{% url 'cooked:edit_profile' %}" class="btn btn-sm btn-outline-light">
+                            Edit Profile <i class="bi bi-gear ms-1"></i>
+                        </a>
+                        <a href="{% url 'cooked:recipe_create' %}" class="btn btn-sm btn-warning fw-semibold">
+                            + Add Recipe
+                        </a>
+                        {% endif %}
+                        {% else %}
+                        <a href="{% url 'cooked:edit_profile' %}" class="btn btn-sm btn-outline-light">
                             Edit Profile <i class="bi bi-gear ms-1"></i>
                         </a>
                         {% endif %}
@@ -49,89 +58,89 @@
                 </div>
                 <!-- considering taking this out... -->
                 <div class="profile-stats-card align-self-end mb-2">
-                <div class="d-flex justify-content-between align-items-start gap-4">
-                    <div>
-                    <span class="stats-label mb-1">Chef level</span>
-                    <div class="d-flex gap-1">
-                        <i class="bi bi-star-fill chef-hat-icon"></i>
-                        <i class="bi bi-star-fill chef-hat-icon"></i>
-                        <i class="bi bi-star chef-hat-icon chef-hat-icon--empty"></i>
-                        <i class="bi bi-star chef-hat-icon chef-hat-icon--empty"></i>
-                        <i class="bi bi-star chef-hat-icon chef-hat-icon--empty"></i>
-                    </div>
-                </div>
-                <!-- section where we can see how many recipes have been cooked/wishlist/reviews -->
-                <div class="profile-stats-divider"></div>
-                <div class="d-flex flex-column gap-2">
-                    <div>
-                        <span class="stats-label mb-0">Following</span>
-                        <span class="stats-value d-block">{{ following_count }}</span>
-                    </div>
-                    <div>
-                        <span class="stats-label mb-0">Followers</span>
-                        <span class="stats-value d-block">{{ followers_count }}</span>
+                    <div class="d-flex justify-content-between align-items-start gap-4">
+                        <div>
+                            <span class="stats-label mb-1">Chef level</span>
+                            <div class="d-flex gap-1">
+                                <i class="bi bi-star-fill chef-hat-icon"></i>
+                                <i class="bi bi-star-fill chef-hat-icon"></i>
+                                <i class="bi bi-star chef-hat-icon chef-hat-icon--empty"></i>
+                                <i class="bi bi-star chef-hat-icon chef-hat-icon--empty"></i>
+                                <i class="bi bi-star chef-hat-icon chef-hat-icon--empty"></i>
+                            </div>
+                        </div>
+                        <!-- section where we can see how many recipes have been cooked/wishlist/reviews -->
+                        <div class="profile-stats-divider"></div>
+                        <div class="d-flex flex-column gap-2">
+                            <div>
+                                <span class="stats-label mb-0">Following</span>
+                                <span class="stats-value d-block">{{ following_count }}</span>
+                            </div>
+                            <div>
+                                <span class="stats-label mb-0">Followers</span>
+                                <span class="stats-value d-block">{{ followers_count }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row g-3 mb-5">
-    <div class="col-md-4">
-        <div class="stats-box h-100">
-            <h3 class ="stats-box-title">Recipes</h3>
-            <p class="stats-line mb-2">
-                <i class="bi bi-cup-hot"></i> to try: <strong>{{ cooked_count }}</strong>
-            </p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="stats-box h-100 d-flex flex-colum align-items-center justify-content-center">
-            <h3 class="stats-box-title w-100">Reviews</h3>
-            <span class="stats-big-number">{{ review_count }}</span>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="stats-box h-100">
-            <h3 class="stats-box-title">Recent Reviews</h3>
-            {% for review in recent_reviews %}
-            <p class="stats-review-line mb-0">
-                <a href="javascript:void(0)" class="stats-review-link">{{ review.recipe.title }}</a>
-            </p>
-            {% empty %}
-            <p class="stats-empty mb-0">No reviews yet.</p>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-<section class="section">
-    <div class="section-header">
-        <h2 class="section-heading">Cooked recipes</h2>
-    </div>
-    {% if cooked_recipes %}
-      <ul class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 list-unstyled mt-0">
-        {% for recipe in cooked_recipes %}
-        <li class="col posteritem">
-          <a href="{% url 'cooked:recipe_detail' recipe.id %}" class="recipe-picture">
-            {% if recipe.photo_path %}
-              <img src="{{ recipe.photo_path }}" alt="{{ recipe.title }}" class="recipe-img">
-            {% else %}
-              <img src="https://placehold.co/145x218/2e5939/9be7a1?text=🍽"
-                   alt="{{ recipe.title }}" class="recipe-img">
-            {% endif %}
-            <span class="overlay-actions">
-              <span class="cook-link">{{ recipe.title }}</span>
-            </span>
-          </a>
-          <p class="poster-title">{{ recipe.title }}</p>
-        </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="profile-empty-msg">No cooked recipes yet — get cooking!</p>
-    {% endif %}
- 
-  </section>
- 
-</div>
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <div class="stats-box h-100">
+                        <h3 class="stats-box-title">Recipes</h3>
+                        <p class="stats-line mb-2">
+                            <i class="bi bi-cup-hot"></i> to try: <strong>{{ cooked_count }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-box h-100 d-flex flex-colum align-items-center justify-content-center">
+                        <h3 class="stats-box-title w-100">Reviews</h3>
+                        <span class="stats-big-number">{{ review_count }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-box h-100">
+                        <h3 class="stats-box-title">Recent Reviews</h3>
+                        {% for review in recent_reviews %}
+                        <p class="stats-review-line mb-0">
+                            <a href="javascript:void(0)" class="stats-review-link">{{ review.recipe.title }}</a>
+                        </p>
+                        {% empty %}
+                        <p class="stats-empty mb-0">No reviews yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-heading">Cooked recipes</h2>
+                </div>
+                {% if cooked_recipes %}
+                <ul class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 list-unstyled mt-0">
+                    {% for recipe in cooked_recipes %}
+                    <li class="col posteritem">
+                        <a href="{% url 'cooked:recipe_detail' recipe.id %}" class="recipe-picture">
+                            {% if recipe.photo_path %}
+                            <img src="{{ recipe.photo_path }}" alt="{{ recipe.title }}" class="recipe-img">
+                            {% else %}
+                            <img src="https://placehold.co/145x218/2e5939/9be7a1?text=🍽" alt="{{ recipe.title }}"
+                                class="recipe-img">
+                            {% endif %}
+                            <span class="overlay-actions">
+                                <span class="cook-link">{{ recipe.title }}</span>
+                            </span>
+                        </a>
+                        <p class="poster-title">{{ recipe.title }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="profile-empty-msg">No cooked recipes yet — get cooking!</p>
+                {% endif %}
 
-{% endblock%}
+            </section>
+
+        </div>
+
+        {% endblock%}
