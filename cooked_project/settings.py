@@ -90,35 +90,19 @@ WSGI_APPLICATION = 'cooked_project.wsgi.application'
 def database_from_url(url: str):
     parts = urlsplit(url)
     scheme = parts.scheme.lower()
-    if scheme in {"mysql", "mysql+connector", "mysql+mysqlclient"}:
-        query = parse_qs(parts.query or "")
-        name = parts.path.lstrip("/") or "cooked_django"
-        options = {}
-        charset = (query.get("charset") or ["utf8mb4"])[0]
-        options["charset"] = charset
-        engine = os.environ.get("DJANGO_MYSQL_ENGINE", "mysql.connector.django").strip() or "mysql.connector.django"
-        if scheme == "mysql+mysqlclient":
-            engine = "django.db.backends.mysql"
-        if engine == "mysql.connector.django":
-            try:
-                import mysql.connector  # noqa: F401
-            except Exception as e:
-                raise RuntimeError(
-                    "MySQL is configured but mysql-connector-python is not installed. "
-                    "Run: python -m pip install mysql-connector-python"
-                ) from e
+    if scheme in {"postgres", "postgresql"}:
         return {
-            "ENGINE": engine,
-            "NAME": name,
-            "USER": parts.username or "root",
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": parts.path.lstrip("/"),
+            "USER": parts.username or "",
             "PASSWORD": parts.password or "",
-            "HOST": parts.hostname or "127.0.0.1",
-            "PORT": str(parts.port or 3306),
-            "OPTIONS": options,
+            "HOST": parts.hostname or "localhost",
+            "PORT": str(parts.port or 5432),
         }
-    if scheme.startswith("sqlite"):
-        return {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}
-    raise ValueError(f"Unsupported DATABASE_URL scheme: {scheme}")
+    if scheme in {"mysql", "mysql+connector", "mysql+mysqlclient"}:
+        if scheme.startswith("sqlite"):
+            return {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}
+        raise ValueError(f"Unsupported DATABASE_URL scheme: {scheme}")
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 if DATABASE_URL:
