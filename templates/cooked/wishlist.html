@@ -14,7 +14,7 @@
         {% for r in recipes %}
           <a class="card recipe-card" href="{% url 'cooked:recipe_detail' r.id %}">
             {% if r.photo_path %}
-              <div class="recipe-card__thumb"><img alt="{{ r.title }}" src="{% r.photo_path %}" loading="lazy" /></div>
+              <div class="recipe-card__thumb"><img alt="{{ r.title }}" src="{{ r.photo_path }}" loading="lazy" /></div>
             {% else %}
               <div class="recipe-card__thumb recipe-card__thumb--empty"><div class="muted">No photo</div></div>
             {% endif %}
