@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cooked',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -161,3 +163,11 @@ RECIPE_UPLOAD_ROOT = str(BASE_DIR / "static" / "uploads" / "recipes")
 LOGIN_REDIRECT_URL = "recipe_list"
 LOGOUT_REDIRECT_URL = "/cooked/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('dhpwsuatf'),
+    'API_KEY': os.environ.get('146634368243664'),
+    'API_SECRET': os.environ.get('FiLeSyCKalJeuMqOx2hzeWYNy-s'),
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
