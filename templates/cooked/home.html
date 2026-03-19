@@ -30,7 +30,7 @@
             data-in-wishlist="false">
 
             {% if recipe.image %}
-              <img src="{{ static recipe.photo_path }}" alt="{{ recipe.title }}" class="recipe-img">
+              <img src="{{ recipe.photo_path }}" alt="{{ recipe.title }}" class="recipe-img">
             {% else %}
               <img src="https://placehold.co/145x218/2e5939/9be7a1?text=🍽" alt="{{ recipe.title }}" class="recipe-img">
             {% endif %}
