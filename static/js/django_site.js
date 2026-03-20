@@ -127,7 +127,7 @@
     const run = async () => {
       const ids = getIds();
       const mode = getMode();
-      const url = `/social/ingredients/filter/?ingredients=${encodeURIComponent(ids.join(","))}&mode=${encodeURIComponent(mode)}`;
+      const url = `/cooked/ingredients/filter/?ingredients=${encodeURIComponent(ids.join(","))}&mode=${encodeURIComponent(mode)}`;
       const res = await fetch(url, { headers: { "Accept": "application/json" } });
       const data = await res.json();
       results.innerHTML = data.html || "";
@@ -145,7 +145,7 @@
       const username = btn.getAttribute("data-username");
       if (!username) return;
       try {
-        const res = await postJson(`/social/follow/${encodeURIComponent(username)}/toggle/`, {});
+        const res = await postJson(`/cooked/follow/${encodeURIComponent(username)}/toggle/`, {});
         if (res.following) {
           btn.classList.remove("btn--primary");
           btn.classList.add("btn--ghost");
@@ -171,7 +171,7 @@
       if (!recipeId || !status) return;
 
       try {
-        const res = await postJson(`/social/recipes/${recipeId}/status/toggle/`, { status });
+        const res = await postJson(`/cooked/recipes/${recipeId}/status/toggle/`, { status });
         if (status === "wishlist") {
           btn.classList.toggle("btn--primary", !res.wishlist);
           btn.classList.toggle("btn--ghost", !!res.wishlist);
