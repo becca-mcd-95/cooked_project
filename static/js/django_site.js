@@ -171,7 +171,7 @@
       if (!recipeId || !status) return;
 
       try {
-        const res = await postJson(`/cooked/recipes/${recipeId}/status/toggle/`, { status });
+        const res = await postJson(`/cooked/recipes/${recipeId}/status/`, { status });
         if (status === "wishlist") {
           btn.classList.toggle("btn--primary", !res.wishlist);
           btn.classList.toggle("btn--ghost", !!res.wishlist);
@@ -191,5 +191,23 @@
     setupIngredientSearch();
     setupFollowToggle();
     setupStatusToggle();
+    setupDialogs();
   });
+  function setupDialogs() {
+    document.addEventListener("click", (e) => {
+      const opener = e.target.closest("[data-dialog-open]");
+      if (opener) {
+        const id = opener.getAttribute("data-dialog-open");
+        const dialog = document.getElementById(id);
+        if (dialog) dialog.showModal();
+      }
+      const closer = e.target.closest("[data-dialog-close]");
+      if (closer) {
+        const dialog = closer.closest("dialog");
+        if (dialog) dialog.close();
+      }
+    });
+  }
+  
 })();
+
