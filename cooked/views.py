@@ -403,7 +403,7 @@ class RecipeUpdateView(UpdateView):
 class RecipeDeleteView(DeleteView):
     model = Recipe
     template_name = "cooked/confirm_delete.html"
-    success_url = reverse_lazy("recipe_list")
+    success_url = reverse_lazy("cooked:recipe_list")
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()

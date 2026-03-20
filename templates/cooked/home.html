@@ -29,7 +29,7 @@
             data-cooked="false"
             data-in-wishlist="false">
 
-            {% if recipe.image %}
+            {% if recipe.photo_path %}
               <img src="{{ recipe.photo_path }}" alt="{{ recipe.title }}" class="recipe-img">
             {% else %}
               <img src="https://placehold.co/145x218/2e5939/9be7a1?text=🍽" alt="{{ recipe.title }}" class="recipe-img">
@@ -85,8 +85,8 @@
             data-cooked="false"
             data-in-wishlist="false">
 
-            {% if recipe.image %}
-              <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-img">
+            {% if recipe.photo_path %}
+            <img src="{{ recipe.photo_path }}" alt="{{ recipe.title }}" class="recipe-img">
             {% else %}
               <img src="{% static 'images/placeholder.png' %}" alt="{{ recipe.title }}" class="recipe-img">
             {% endif %}
@@ -133,9 +133,9 @@
 
       {% for review in popular_reviews %}
       <div class="review-card">
-        <a href="javascript:void(0)" class="review-card-thumb">
-          {% if review.recipe.image %}
-            <img src="{% static review.recipe.photo_path %}" alt="{{ review.recipe.title }}">
+        <a href="{% url 'cooked:recipe_detail' review.recipe.pk %}" class="review-card-thumb">
+          {% if review.recipe.photo_path %}
+          <img src="{{ review.recipe.photo_path }}"
           {% else %}
             <img src="https://placehold.co/54x81/2e5939/9be7a1?text=🍽" alt="{{ review.recipe.title }}">
           {% endif %}
@@ -149,7 +149,7 @@
               {% endfor %}
             </div>
           </div>
-          <a href="javascript:void(0)" class="review-card-title">{{ review.recipe.title }}</a>
+          <a href="{% url 'cooked:recipe_detail' review.recipe.pk %}" class="review-card-title">{{ review.recipe.title }}</a>
           <p class="review-card-text">{{ review.comment|truncatechars:160 }}</p>
           <div class="review-card-meta">
             <span class="review-likes"><i class="bi bi-heart-fill"></i> {{ review.like_count|default:"0" }}</span>
