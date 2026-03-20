@@ -1,6 +1,7 @@
 <!-- Yanyan Template -->
 {% load static %}
 <div class="card review-card" data-review-id="{{ review.id }}">
+  <a href="{% url 'cooked:recipe_detail' review.recipe.pk %}" style="font-weight:700; color:var(--green-text); display:block; margin-bottom:0.4rem;">
   <div class="review-card__top">
     <a class="link" href="{% url 'cooked:profile' review.user.username %}">@{{ review.user.username }}</a>
     <div class="stars" data-stars="{{ review.rating }}"></div>
