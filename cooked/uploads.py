@@ -1,9 +1,12 @@
 import os
 import uuid
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
 
 from django.conf import settings
 from django.core.files.uploadedfile import UploadedFile
+
 
 # Yanyan
 
@@ -19,36 +22,33 @@ def save_recipe_photo(upload: UploadedFile) -> str:
     if getattr(upload, "content_type", None) and upload.content_type not in ALLOWED_IMAGE_MIMES:
         raise ValueError("Unsupported image type.")
 
-    root = Path(getattr(settings, "RECIPE_UPLOAD_ROOT", str(Path(settings.BASE_DIR) / "static/uploads/recipes")))
-    root.mkdir(parents=True, exist_ok=True)
+    result = cloudinary.uploader.upload(
+        upload,
+        folder="recipes",
+        resource_type="image"
+    )
+    return result["secure_url"]
 
-    filename = f"{uuid.uuid4().hex}{ext}"
-    abs_path = root / filename
-
-    with abs_path.open("wb") as f:
-        for chunk in upload.chunks():
-            f.write(chunk)
-
-    static_root = Path(settings.BASE_DIR) / "static"
-    rel = abs_path.relative_to(static_root)
-    return rel.as_posix()
-
+# trying to use cloudinary for image as the way this was set up wasn't working commenting out for now
 
 def delete_recipe_photo(static_rel_path: str) -> None:
-    if not static_rel_path:
-        return
+    pass
 
-    static_root = (Path(settings.BASE_DIR) / "static").resolve()
-    abs_path = (static_root / static_rel_path).resolve()
-    uploads_root = (static_root / "uploads" / "recipes").resolve()
+# def delete_recipe_photo(static_rel_path: str) -> None:
+#     if not static_rel_path:
+#         return
 
-    if uploads_root not in abs_path.parents:
-        return
-    if abs_path.exists() and abs_path.is_file():
-        try:
-            os.remove(abs_path)
-        except OSError:
-            return
+#     static_root = (Path(settings.BASE_DIR) / "static").resolve()
+#     abs_path = (static_root / static_rel_path).resolve()
+#     uploads_root = (static_root / "uploads" / "recipes").resolve()
+
+#     if uploads_root not in abs_path.parents:
+#         return
+#     if abs_path.exists() and abs_path.is_file():
+#         try:
+#             os.remove(abs_path)
+#         except OSError:
+#             return
         
 # Tuoyu
 

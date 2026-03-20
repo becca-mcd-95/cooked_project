@@ -46,7 +46,7 @@ class Recipe(models.Model):
     )
     occasion = models.CharField(max_length=60, blank=True, default="", db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    photo_path = models.CharField(max_length=255, blank=True, default="")
+    photo_path = models.ImageField(upload_to='recipes/', blank=True, null=True)
     origin_country = models.ForeignKey(
         "cooked.Country",
         on_delete=models.SET_NULL,

@@ -56,7 +56,7 @@
         {% empty %}
         {% for i in "12345678" %}
         <li class="posteritem">
-          <a href="javascript:void(0)" class="recipe-picture">
+          <a href="{% url 'cooked:recipe_detail' recipe.pk %}" class="recipe-picture">
             <img src="{% static 'images/salad.png' %}" alt="No recipes yet" class="recipe-img">
           </a>
           <p class="poster-title">Coming soon</p>
@@ -112,7 +112,7 @@
         {% empty %}
         {% for i in "12345678" %}
         <li class="posteritem">
-          <a href="javascript:void(0)" class="recipe-picture">
+          <a href="{% url 'cooked:recipe_detail' recipe.pk %}" class="recipe-picture">
             <img src="{% static 'images/tandoori_prawn.png' %}" alt="No recipes yet" class="recipe-img">
           </a>
           <p class="poster-title">Coming soon</p>
@@ -161,7 +161,7 @@
       <!-- Placeholder review cards -->
       {% for i in "123456" %}
       <div class="review-card">
-        <a href="javascript:void(0)" class="review-card-thumb">
+        <a href="{% url 'cooked:recipe_detail' review.recipe.pk %}" class="review-card-thumb">
           <img src="{% static 'images/placeholder.png' %}" alt="Recipe image">
         </a>
         <div class="review-card-body">
@@ -175,7 +175,7 @@
               <span class="bi bi-cup-hot chef-icon-sm"></span>
             </div>
           </div>
-          <a href="javascript:void(0)" class="review-card-title">Recipe Name</a>
+          <a href="{% url 'cooked:recipe_detail' review.recipe.pk %}" class="review-card-title">Recipe Name</a>
           <p class="review-card-text">Review preview text goes here — click to read the full review and see what this user thought about the dish.</p>
           <div class="review-card-meta">
             <span class="review-likes"><i class="bi bi-heart-fill"></i> 1,234</span>

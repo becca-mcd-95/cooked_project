@@ -19,7 +19,7 @@ from django.utils import timezone
 from cooked.forms import SignUpForm, ProfileForm, RecipeForm, ReviewForm, UserForm
 from cooked.models import Recipe, Review, Country, Follow, Ingredient, RecipeStatus
 from .filter_options import DEFAULT_CUISINES, DEFAULT_OCCASIONS, english_only, merge_defaults, has_cjk
-from .uploads import delete_recipe_photo, save_recipe_photo
+from cooked.uploads import delete_recipe_photo, save_recipe_photo
 
 # Becca views
 
