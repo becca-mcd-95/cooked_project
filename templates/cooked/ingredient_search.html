@@ -15,12 +15,12 @@
         <label class="label">Mode</label>
         <div class="seg">
           <label class="seg__item">
-            <input type="radio" name="mode" value="strict" {% if not mode=='loose' %}checked{% endif %} />
+            <input type="radio" name="mode" value="strict" {% if mode != 'loose' %}checked{% endif %} />
             <span>Strict (all required)</span>
           </label>
 
           <label class="seg__item">
-            <input type="radio" name="mode" value="loose" {% if mode=='loose' %}checked{% endif %} />
+            <input type="radio" name="mode" value="loose" {% if mode == 'loose' %}checked{% endif %} />
             <span>Loose (any match)</span>
           </label>
 

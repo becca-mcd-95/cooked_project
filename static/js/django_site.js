@@ -94,7 +94,7 @@
       if (!reviewId) return;
 
       try {
-        const res = await postJson(`/reviews/${reviewId}/delete/`, {});
+        const res = await postJson(`/cooked/review/${reviewId}/delete/`, {});
         const node = container.querySelector(`[data-review-id="${reviewId}"]`);
         if (node) node.remove();
         if (countEl) countEl.textContent = String(Math.max(0, Number(countEl.textContent || "0") - 1));
