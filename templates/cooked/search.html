@@ -11,7 +11,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-3">
       {% for user in users %}
       <div class="col">
-        <a href="{% url 'cooked:user_profile' user.username %}" class="card d-flex flex-row align-items-center gap-3 p-3 text-decoration-none">
+        <a href="{% url 'cooked:profile' user.username %}" class="card d-flex flex-row align-items-center gap-3 p-3 text-decoration-none">
           <div class="profile-avatar-placeholder profile-avatar d-flex align-items-center justify-content-center" style="width:48px; height:48px; font-size:1.2rem; flex-shrink:0;">
             <i class="bi bi-person-fill"></i>
           </div>
