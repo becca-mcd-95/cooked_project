@@ -101,10 +101,9 @@ def database_from_url(url: str):
             "HOST": parts.hostname or "localhost",
             "PORT": str(parts.port or 5432),
         }
-    if scheme in {"mysql", "mysql+connector", "mysql+mysqlclient"}:
-        if scheme.startswith("sqlite"):
-            return {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}
-        raise ValueError(f"Unsupported DATABASE_URL scheme: {scheme}")
+    if scheme.startswith("sqlite"):
+        return {"ENGINE": "django.db.backends.sqlite3", "NAME": str(BASE_DIR / "db.sqlite3")}
+    raise ValueError(f"Unsupported DATABASE_URL scheme: {scheme}")
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 if DATABASE_URL:
@@ -160,14 +159,14 @@ LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/cooked/'
 
 RECIPE_UPLOAD_ROOT = str(BASE_DIR / "static" / "uploads" / "recipes")
-LOGIN_REDIRECT_URL = "recipe_list"
+LOGIN_REDIRECT_URL = "/cooked/"
 LOGOUT_REDIRECT_URL = "/cooked/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('dhpwsuatf'),
-    'API_KEY': os.environ.get('146634368243664'),
-    'API_SECRET': os.environ.get('FiLeSyCKalJeuMqOx2hzeWYNy-s'),
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
